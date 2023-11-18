@@ -45,7 +45,9 @@ public class Energy extends JPanel implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-
+        gp.setEnergyScore(gp.getEnergyScore() + 25);
+        gp.remove(this);
+        gp.getActiveEnergys().remove(this);
     }
 
     @Override

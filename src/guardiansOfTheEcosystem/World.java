@@ -31,10 +31,7 @@ public class World extends JLayeredPane implements MouseMotionListener {
     private Timer energyProducer;
     private Timer gameplayTimer;
 
-    public void setenergyScore(int energyScore) {
-        this.energyScore = energyScore;
-        energyScoreBoard.setText(String.valueOf(energyScore));
-    }
+
 
     public World(JLabel energyScoreBoard) {
         setSize(1000, 752);
@@ -43,7 +40,7 @@ public class World extends JLayeredPane implements MouseMotionListener {
         this.energyScoreBoard = energyScoreBoard;
         
         // Set initial energy to 150
-        setenergyScore(150);
+        setEnergyScore(150);
         
         try {
             bgImage = new ImageIcon(this.getClass().getResource("images/mainBG.png")).getImage();
@@ -95,7 +92,12 @@ public class World extends JLayeredPane implements MouseMotionListener {
         this.activeEnergys = activeEnergys;
     }
     
-    public int getenergyScore() {
+    public void setEnergyScore(int energyScore) {
+        this.energyScore = energyScore;
+        energyScoreBoard.setText(String.valueOf(energyScore));
+    }
+    
+    public int getEnergyScore() {
         return energyScore;
     }
 
@@ -107,7 +109,7 @@ public class World extends JLayeredPane implements MouseMotionListener {
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+		mouseX = e.getX();
+		mouseY = e.getY();
 	}
 }
