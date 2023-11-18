@@ -1,5 +1,7 @@
 package guardiansOfTheEcosystem;
 
+import javax.swing.JOptionPane;
+
 public class Enemy {
 
     private int health;
@@ -12,11 +14,34 @@ public class Enemy {
     
     World gp;
 
-    public Enemy(World gp, int health, int speed, int enemyLane) {
+    public Enemy(World gp, int health, int speed, int enelane) {
     	this.gp = gp;
     	this.health = health;
     	this.speed = speed;
-    	this.lane = enemyLane;
+    	this.lane = enelane;
+    }
+    
+    public void move() {
+        if (isMoving) {
+            posX -= 1;
+            
+            if (posX < 0) {
+                isMoving = false;
+                JOptionPane.showMessageDialog(gp, "Enemy is destroying the ecosystem !" + '\n' + "Starting the level again");
+                GameWindow.gw.dispose();
+                GameWindow.gw = new GameWindow();
+            }
+        }
+    }
+    
+    public static Enemy getEnemy(String type, World parent, int lane) {
+        Enemy enemy = null;
+        switch (type) {
+            case "SawMan":
+                enemy = new SawMan(parent, lane);
+                break;
+        }
+        return enemy;
     }
     
     // Setter and getter for health

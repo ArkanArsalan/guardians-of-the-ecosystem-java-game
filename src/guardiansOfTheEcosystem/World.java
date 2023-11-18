@@ -13,6 +13,7 @@ public class World extends JLayeredPane implements MouseMotionListener {
 	
 	// Variable to store image
     private Image bgImage;
+    private Image sawManImage;
     
     // List of energy
     private ArrayList<Energy> activeEnergys;
@@ -30,8 +31,25 @@ public class World extends JLayeredPane implements MouseMotionListener {
     private Timer redrawTimer;
     private Timer energyProducer;
     private Timer gameplayTimer;
-
-
+    private Timer enemyProducer;
+    
+    // List for Enemy lane
+    private ArrayList<ArrayList<Enemy>> enemyLane;
+    
+    /*
+     * dificultyEnemyList:
+     * 	Determine the list of enemy for each level (index = level - 1)
+     * 
+     * dificultyValue:
+     * 	Determine the probabiilty of enemy to summon
+     * 
+     * dificulty:
+     * 	initial dificulty set to 1
+     * 
+     * */ 
+    public String[][] dificultyEnemyList = {{"SawMan"}};
+    public int[][][] dificultyValue = {{{0, 99}}};
+    private int dificulty = 1;
 
     public World(JLabel energyScoreBoard) {
         setSize(1000, 752);
@@ -44,6 +62,7 @@ public class World extends JLayeredPane implements MouseMotionListener {
         
         try {
             bgImage = new ImageIcon(this.getClass().getResource("images/mainBG.png")).getImage();
+            sawManImage = new ImageIcon(this.getClass().getResource("images/zombie1.png")).getImage();
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -70,9 +89,46 @@ public class World extends JLayeredPane implements MouseMotionListener {
         
         energyProducer.start();
         
+        
+        // Enemy lane
+        enemyLane = new ArrayList<>();
+        enemyLane.add(new ArrayList<>()); //line 1
+        enemyLane.add(new ArrayList<>()); //line 2
+        enemyLane.add(new ArrayList<>()); //line 3
+        enemyLane.add(new ArrayList<>()); //line 4
+        enemyLane.add(new ArrayList<>()); //line 5
+        
+        // Produce enemys
+        enemyProducer = new Timer(7000, (ActionEvent e) -> {            
+            String[] enemyList = dificultyEnemyList[dificulty - 1];
+            int[][] dValue = dificultyValue[dificulty - 1];
+            
+            Enemy enemy = null;
+            
+            Random random = new Random();
+            int randomLane = random.nextInt(5);
+            int randomNumber = random.nextInt(100);
+            
+            for (int i = 0; i < dValue.length; i++) {
+                if (randomNumber >= dValue[i][0] && randomNumber <= dValue[i][1]) {
+                    enemy = Enemy.getEnemy(enemyList[i], this, randomLane);
+                }
+            }
+            
+            enemyLane.get(randomLane).add(enemy);
+        });
+        
+        enemyProducer.start();
+        
     }
     
     private void gameplay() {
+    	for (int i = 0; i < 5; i++) {
+    		for (Enemy enemy : enemyLane.get(i)) {
+    			enemy.move();
+    		}
+    	}
+    	
         for (int i = 0; i < activeEnergys.size(); i++) {
             activeEnergys.get(i).energyFall();
         }
@@ -82,6 +138,14 @@ public class World extends JLayeredPane implements MouseMotionListener {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.drawImage(bgImage, 0, 0, null);
+        
+        for (int i = 0; i < 5; i++) {
+            for (Enemy enemy : enemyLane.get(i)) {
+                if (enemy instanceof SawMan) {
+                    g.drawImage(sawManImage, enemy.getPosX(), 109 + (i * 120), null);
+                }
+            }
+        }
     }
     
     public ArrayList<Energy> getActiveEnergys() {
