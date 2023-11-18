@@ -15,8 +15,6 @@ public class Energy extends JPanel implements MouseListener {
     private int yCoor;
     private int endY;
 
-    private int destruct = 200;
-
 	private World gp;
 
     public Energy(World parent, int startX, int startY, int endY) {
@@ -35,6 +33,14 @@ public class Energy extends JPanel implements MouseListener {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.drawImage(sunImage, 0, 0, null);
+    }
+    
+    public void energyFall() {
+    	// Move energy object down by 4 pixel
+        if (yCoor < endY) {
+            yCoor += 4;
+        }
+        setLocation(xCoor, yCoor);
     }
 
     @Override
