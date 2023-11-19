@@ -10,13 +10,7 @@ public class BearCat extends Guardian {
 	public BearCat(World gp, int x, int y, int health) {
 		super(gp, x, y, health, 100);
 		
-        shootTimer = new Timer(2000, (ActionEvent e) -> {
-            if (gp.getEnemyLane().get(y).size() > 0) {
-                gp.getBulletLane().get(y).add(new Bullet(gp, y, 103 + this.getX() * 100));
-            }
-        });
-        
-        shootTimer.start();
+
 	}
 
 	@Override

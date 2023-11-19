@@ -1,6 +1,9 @@
 package guardiansOfTheEcosystem;
 
 import javax.swing.*;
+
+import guardiansOfTheEcosystem.GameWindow.GuardianType;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,6 +17,7 @@ public class World extends JLayeredPane implements MouseMotionListener {
 	// Variable to store image
     private Image bgImage;
     private Image sawManImage;
+    private Image bearCatImage;
     
     // List of energy
     private ArrayList<Energy> activeEnergys;
@@ -33,7 +37,7 @@ public class World extends JLayeredPane implements MouseMotionListener {
     private Timer gameplayTimer;
     private Timer enemyProducer;
     
-    // List for Enemy lane
+    // List of lane
     private ArrayList<ArrayList<Enemy>> enemyLane;
     
     /*
@@ -50,6 +54,11 @@ public class World extends JLayeredPane implements MouseMotionListener {
     public String[][] dificultyEnemyList = {{"SawMan"}};
     public int[][][] dificultyValue = {{{0, 99}}};
     private int dificulty = 1;
+    
+    // Variable to store current guardian
+    private GameWindow.GuardianType activeGuardian = GameWindow.GuardianType.None;
+    
+    private Grid[] grids;
 
     public World(JLabel energyScoreBoard) {
         setSize(1000, 752);
@@ -58,11 +67,12 @@ public class World extends JLayeredPane implements MouseMotionListener {
         this.energyScoreBoard = energyScoreBoard;
         
         // Set initial energy to 150
-        setEnergyScore(150);
+        setEnergyScore(500);
         
         try {
             bgImage = new ImageIcon(this.getClass().getResource("images/mainBG.png")).getImage();
             sawManImage = new ImageIcon(this.getClass().getResource("images/zombie1.png")).getImage();
+            bearCatImage = new ImageIcon(this.getClass().getResource("images/peashooter.gif")).getImage();
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -88,7 +98,6 @@ public class World extends JLayeredPane implements MouseMotionListener {
         });
         
         energyProducer.start();
-        
         
         // Enemy lane
         enemyLane = new ArrayList<>();
@@ -120,6 +129,15 @@ public class World extends JLayeredPane implements MouseMotionListener {
         
         enemyProducer.start();
         
+        grids = new Grid[45];
+        for (int i = 0; i < 45; i++) {
+            Grid g = new Grid();
+            g.setLocation(44 + (i % 9) * 100, 109 + (i / 9) * 120);
+            g.setAction(new GuardianActionListener((i % 9), (i / 9)));
+            grids[i] = g;
+            add(g);
+        }
+        
     }
     
     private void gameplay() {
@@ -139,13 +157,51 @@ public class World extends JLayeredPane implements MouseMotionListener {
         super.paintComponent(g);
         g.drawImage(bgImage, 0, 0, null);
         
+        //Draw Guardians
+        for (int i = 0; i < 45; i++) {
+            Grid c = grids[i];
+            if (c.assignedGuardian != null) {
+                Guardian guardian = c.assignedGuardian;
+                if (guardian instanceof BearCat) {
+                    g.drawImage(bearCatImage, 60 + (i % 9) * 100, 129 + (i / 9) * 120, null);
+                }
+            }
+        }
+        
         for (int i = 0; i < 5; i++) {
             for (Enemy enemy : enemyLane.get(i)) {
                 if (enemy instanceof SawMan) {
                     g.drawImage(sawManImage, enemy.getPosX(), 109 + (i * 120), null);
                 }
             }
+            
         }
+    }
+    
+    private class GuardianActionListener implements ActionListener {
+
+        int x, y;
+
+        public GuardianActionListener(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (activeGuardian == GameWindow.GuardianType.BearCat) {
+            	Guardian bearcat = new BearCat(World.this, x, y, 200);
+                if (getEnergyScore() >= bearcat.getEnergyPrice()) {
+                    grids[x + y * 9].setGuardian(bearcat);
+                    setEnergyScore(getEnergyScore() - bearcat.getEnergyPrice());
+                }
+            }
+            activeGuardian = GameWindow.GuardianType.None;
+        }
+    }
+    
+    public void setActiveGuardian(GameWindow.GuardianType activeGuardian) {
+        this.activeGuardian = activeGuardian;
     }
     
     public ArrayList<Energy> getActiveEnergys() {
@@ -164,6 +220,16 @@ public class World extends JLayeredPane implements MouseMotionListener {
     public int getEnergyScore() {
         return energyScore;
     }
+    
+    public ArrayList<ArrayList<Enemy>> getEnemyLane() {
+        return enemyLane;
+    }
+    
+    public void setEnemyLane(ArrayList<ArrayList<Enemy>> enemyLane) {
+        this.enemyLane = enemyLane;
+    }
+    
+
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
