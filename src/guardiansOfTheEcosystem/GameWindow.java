@@ -22,9 +22,9 @@ public class GameWindow extends JFrame {
         getLayeredPane().add(gp, new Integer(0));
         
         // Second Layer : show guardian card
-        GuardianCard sunflower = new GuardianCard(new ImageIcon(this.getClass().getResource("images/card_peashooter.png")).getImage());
-        sunflower.setLocation(110, 8);
-        getLayeredPane().add(sunflower, new Integer(1));
+        GuardianCard bearcatCard = new GuardianCard(new ImageIcon(this.getClass().getResource("images/card_peashooter.png")).getImage());
+        bearcatCard.setLocation(110, 8);
+        getLayeredPane().add(bearcatCard, new Integer(1));
 
         // Third layer : show the energy score board
         getLayeredPane().add(energy, new Integer(2));
