@@ -5,7 +5,10 @@ import java.awt.event.ActionEvent;
 
 public class GameWindow extends JFrame {
 
-    //PlantType activePlantingBrush = PlantType.None;
+    enum GuardianType {
+        None,
+        BearCat
+    };
 
     public GameWindow() {
         setSize(1012, 785);
@@ -21,13 +24,15 @@ public class GameWindow extends JFrame {
         gp.setLocation(0, 0);
         getLayeredPane().add(gp, new Integer(0));
         
-        // Second Layer : show guardian card
+        // Second Layer : show guardian card and energy score board
         GuardianCard bearcatCard = new GuardianCard(new ImageIcon(this.getClass().getResource("images/card_peashooter.png")).getImage());
         bearcatCard.setLocation(110, 8);
         getLayeredPane().add(bearcatCard, new Integer(1));
+        bearcatCard.setAction((ActionEvent e) -> {
+            gp.setActiveGuardian(GuardianType.BearCat);
+        });
 
-        // Third layer : show the energy score board
-        getLayeredPane().add(energy, new Integer(2));
+        getLayeredPane().add(energy, new Integer(1));
         setResizable(false);
         setVisible(true);
     }
