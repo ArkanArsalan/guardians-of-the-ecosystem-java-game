@@ -1,19 +1,23 @@
 package guardiansOfTheEcosystem;
 
-public class Guardian {
+public abstract class Guardian {
+	
     private int health;
-
     private int x;
     private int y;
+    private int energyPrice;
 
     private World gp;
 
-    public Guardian(World gp, int x, int y, int health) {
+    public Guardian(World gp, int x, int y, int health, int energyPrice) {
         this.x = x;
         this.y = y;
         this.gp = gp;
         this.health = health;
+        this.energyPrice = energyPrice;
     }
+    
+    public abstract void stop();
     
     // Setter and getter for health
     public int getHealth() {
@@ -40,5 +44,9 @@ public class Guardian {
 
     public void setY(int y) {
         this.y = y;
+    }
+    
+    public int getEnergyPrice() {
+    	return energyPrice;
     }
 }
