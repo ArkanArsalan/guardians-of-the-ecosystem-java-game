@@ -20,8 +20,13 @@ public class GameWindow extends JFrame {
         World gp = new World(energy);
         gp.setLocation(0, 0);
         getLayeredPane().add(gp, new Integer(0));
+        
+        // Second Layer : show guardian card
+        GuardianCard sunflower = new GuardianCard(new ImageIcon(this.getClass().getResource("images/card_peashooter.png")).getImage());
+        sunflower.setLocation(110, 8);
+        getLayeredPane().add(sunflower, new Integer(1));
 
-        // Second layer : show the energy score board
+        // Third layer : show the energy score board
         getLayeredPane().add(energy, new Integer(2));
         setResizable(false);
         setVisible(true);
