@@ -80,7 +80,7 @@ public class World extends JLayeredPane implements MouseMotionListener {
         try {
             bgImage = new ImageIcon(this.getClass().getResource("images/mainBG.png")).getImage();
             bearCatImage = new ImageIcon(this.getClass().getResource("images/peashooter.gif")).getImage();
-            porcupineImage = new ImageIcon(this.getClass().getResource("image/freezepeashooter.gif")).getImage();
+            porcupineImage = new ImageIcon(this.getClass().getResource("images/freezepeashooter.gif")).getImage();
             
             sawManImage = new ImageIcon(this.getClass().getResource("images/zombie1.png")).getImage();
         } catch (Exception e) {
@@ -204,13 +204,20 @@ public class World extends JLayeredPane implements MouseMotionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (activeGuardian == GameWindow.GuardianType.BearCat) {
-            	Guardian bearcat = new BearCat(World.this, x, y, 200, 100);
-                if (getEnergyScore() >= bearcat.getEnergyPrice()) {
-                    grids[x + y * 9].setGuardian(bearcat);
-                    setEnergyScore(getEnergyScore() - bearcat.getEnergyPrice());
-                }
-            }
+        	if (activeGuardian == GameWindow.GuardianType.BearCat) {
+        	    Guardian bearcat = new BearCat(World.this, x, y, 200, 100);
+        	    if (getEnergyScore() >= bearcat.getEnergyPrice()) {
+        	        grids[x + y * 9].setGuardian(bearcat);
+        	        setEnergyScore(getEnergyScore() - bearcat.getEnergyPrice());
+        	    }
+        	} else if (activeGuardian == GameWindow.GuardianType.Porcupine) {
+        	    Guardian porcupine = new Porcupine(World.this, x, y, 100, 200);
+        	    if (getEnergyScore() >= porcupine.getEnergyPrice()) {
+        	        grids[x + y * 9].setGuardian(porcupine);
+        	        setEnergyScore(getEnergyScore() - porcupine.getEnergyPrice());
+        	    }
+        	}
+
             activeGuardian = GameWindow.GuardianType.None;
         }
     }
