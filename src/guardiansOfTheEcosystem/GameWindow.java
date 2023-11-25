@@ -7,7 +7,8 @@ public class GameWindow extends JFrame {
 
     enum GuardianType {
         None,
-        BearCat
+        BearCat,
+        Porcupine
     };
 
     public GameWindow() {
@@ -27,12 +28,19 @@ public class GameWindow extends JFrame {
         // Second Layer : show guardian card and energy score board
         GuardianCard bearcatCard = new GuardianCard(new ImageIcon(this.getClass().getResource("images/card_peashooter.png")).getImage());
         bearcatCard.setLocation(110, 8);
-        getLayeredPane().add(bearcatCard, new Integer(1));
+        getLayeredPane().add(bearcatCard, new Integer(2));
         bearcatCard.setAction((ActionEvent e) -> {
             gp.setActiveGuardian(GuardianType.BearCat);
         });
+        GuardianCard porcupineCard = new GuardianCard(new ImageIcon(this.getClass().getResource("images/card_peashooter.png")).getImage());
+        porcupineCard.setLocation(175, 8);
+        getLayeredPane().add(porcupineCard, new Integer(2));
+        bearcatCard.setAction((ActionEvent e) -> {
+            gp.setActiveGuardian(GuardianType.Porcupine);
+        });
+        
 
-        getLayeredPane().add(energy, new Integer(1));
+        getLayeredPane().add(energy, new Integer(2));
         setResizable(false);
         setVisible(true);
     }

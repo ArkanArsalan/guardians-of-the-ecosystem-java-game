@@ -15,9 +15,17 @@ import java.util.Random;
 public class World extends JLayeredPane implements MouseMotionListener {
 	
 	// Variable to store image
+	
+	//bg image
     private Image bgImage;
-    private Image sawManImage;
+    
+    //guardian image
     private Image bearCatImage;
+    private Image porcupineImage;
+    
+    //enemy image
+    private Image sawManImage;
+    
     
     // List of energy
     private ArrayList<Energy> activeEnergys;
@@ -71,8 +79,10 @@ public class World extends JLayeredPane implements MouseMotionListener {
         
         try {
             bgImage = new ImageIcon(this.getClass().getResource("images/mainBG.png")).getImage();
-            sawManImage = new ImageIcon(this.getClass().getResource("images/zombie1.png")).getImage();
             bearCatImage = new ImageIcon(this.getClass().getResource("images/peashooter.gif")).getImage();
+            porcupineImage = new ImageIcon(this.getClass().getResource("image/freezepeashooter.gif")).getImage();
+            
+            sawManImage = new ImageIcon(this.getClass().getResource("images/zombie1.png")).getImage();
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -165,6 +175,9 @@ public class World extends JLayeredPane implements MouseMotionListener {
                 if (guardian instanceof BearCat) {
                     g.drawImage(bearCatImage, 60 + (i % 9) * 100, 129 + (i / 9) * 120, null);
                 }
+                if (guardian instanceof Porcupine) {
+                    g.drawImage(porcupineImage, 60 + (i % 9) * 100, 129 + (i / 9) * 120, null);
+                }
             }
         }
         
@@ -176,6 +189,8 @@ public class World extends JLayeredPane implements MouseMotionListener {
             }
             
         }
+        
+        
     }
     
     private class GuardianActionListener implements ActionListener {
@@ -190,7 +205,7 @@ public class World extends JLayeredPane implements MouseMotionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (activeGuardian == GameWindow.GuardianType.BearCat) {
-            	Guardian bearcat = new BearCat(World.this, x, y, 200);
+            	Guardian bearcat = new BearCat(World.this, x, y, 200, 100);
                 if (getEnergyScore() >= bearcat.getEnergyPrice()) {
                     grids[x + y * 9].setGuardian(bearcat);
                     setEnergyScore(getEnergyScore() - bearcat.getEnergyPrice());
