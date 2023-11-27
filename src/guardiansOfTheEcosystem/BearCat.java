@@ -20,12 +20,12 @@ public class BearCat {
 	public void advance() {
         Rectangle pRect = new Rectangle(posX, 130 + myLane * 120, 28, 28);
         for (int i = 0; i < gp.getEnemyLane().get(myLane).size(); i++) {
-            Enemy z = gp.getEnemyLane().get(myLane).get(i);
-            Rectangle zRect = new Rectangle(z.getPosX(), 109 + myLane * 120, 400, 120);
-            if (pRect.intersects(zRect)) {
-                z.setHealth(z.getHealth() - 300);
+            Enemy enemy = gp.getEnemyLane().get(myLane).get(i);
+            Rectangle enemyRect = new Rectangle(enemy.getPosX(), 109 + myLane * 120, 400, 120);
+            if (pRect.intersects(enemyRect)) {
+                enemy.setHealth(enemy.getHealth() - 300);
                 boolean exit = false;
-                if (z.getHealth() < 0) {
+                if (enemy.getHealth() < 0) {
                     System.out.println("ZOMBIE DIED");
 
                     gp.getEnemyLane().get(myLane).remove(i);

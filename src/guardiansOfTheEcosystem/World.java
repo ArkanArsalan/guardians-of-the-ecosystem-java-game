@@ -20,7 +20,7 @@ public class World extends JLayeredPane implements MouseMotionListener {
     private Image bgImage;
     
     //guardian image
-    private Image bearCatImage;
+    private Image bearCatShooterImage;
     private Image porcupineImage;
     private Image crabImage;
     
@@ -86,7 +86,7 @@ public class World extends JLayeredPane implements MouseMotionListener {
         
         try {
             bgImage = new ImageIcon(this.getClass().getResource("images/mainBG.png")).getImage();
-            bearCatImage = new ImageIcon(this.getClass().getResource("images/peashooter.gif")).getImage();
+            bearCatShooterImage = new ImageIcon(this.getClass().getResource("images/peashooter.gif")).getImage();
             porcupineImage = new ImageIcon(this.getClass().getResource("images/freezepeashooter.gif")).getImage();
             crabImage = new ImageIcon(this.getClass().getResource("images/freezepeashooter.gif")).getImage();
             bearCatweaponImage = new ImageIcon(this.getClass().getResource("images/pea.png")).getImage();
@@ -199,7 +199,7 @@ public class World extends JLayeredPane implements MouseMotionListener {
             if (c.assignedGuardian != null) {
                 Guardian guardian = c.assignedGuardian;
                 if (guardian instanceof BearCatShooter) {
-                    g.drawImage(bearCatImage, 60 + (i % 9) * 100, 129 + (i / 9) * 120, null);
+                    g.drawImage(bearCatShooterImage, 60 + (i % 9) * 100, 129 + (i / 9) * 120, null);
                 }
                 if (guardian instanceof Porcupine) {
                     g.drawImage(porcupineImage, 60 + (i % 9) * 100, 129 + (i / 9) * 120, null);
