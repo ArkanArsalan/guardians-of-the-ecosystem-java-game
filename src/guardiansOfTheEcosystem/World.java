@@ -22,6 +22,7 @@ public class World extends JLayeredPane implements MouseMotionListener {
     //guardian image
     private Image bearCatImage;
     private Image porcupineImage;
+    private Image crabImage;
     
     //enemy image
     private Image sawManImage;
@@ -81,6 +82,7 @@ public class World extends JLayeredPane implements MouseMotionListener {
             bgImage = new ImageIcon(this.getClass().getResource("images/mainBG.png")).getImage();
             bearCatImage = new ImageIcon(this.getClass().getResource("images/peashooter.gif")).getImage();
             porcupineImage = new ImageIcon(this.getClass().getResource("images/freezepeashooter.gif")).getImage();
+            crabImage = new ImageIcon(this.getClass().getResource("images/freezepeashooter.gif")).getImage();
             
             sawManImage = new ImageIcon(this.getClass().getResource("images/zombie1.png")).getImage();
         } catch (Exception e) {
@@ -178,6 +180,9 @@ public class World extends JLayeredPane implements MouseMotionListener {
                 if (guardian instanceof Porcupine) {
                     g.drawImage(porcupineImage, 60 + (i % 9) * 100, 129 + (i / 9) * 120, null);
                 }
+                if (guardian instanceof Crab) {
+                    g.drawImage(crabImage, 60 + (i % 9) * 100, 129 + (i / 9) * 120, null);
+                }
             }
         }
         
@@ -205,7 +210,7 @@ public class World extends JLayeredPane implements MouseMotionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
         	if (activeGuardian == GameWindow.GuardianType.BearCat) {
-        	    Guardian bearcat = new BearCat(World.this, x, y, 200, 100);
+        	    Guardian bearcat = new BearCat(World.this, x, y, 100, 100);
         	    if (getEnergyScore() >= bearcat.getEnergyPrice()) {
         	        grids[x + y * 9].setGuardian(bearcat);
         	        setEnergyScore(getEnergyScore() - bearcat.getEnergyPrice());
@@ -216,8 +221,14 @@ public class World extends JLayeredPane implements MouseMotionListener {
         	        grids[x + y * 9].setGuardian(porcupine);
         	        setEnergyScore(getEnergyScore() - porcupine.getEnergyPrice());
         	    }
+        	} else if (activeGuardian == GameWindow.GuardianType.Crab) {
+        	    Guardian crab = new Porcupine(World.this, x, y, 100, 100);
+        	    if (getEnergyScore() >= crab.getEnergyPrice()) {
+        	        grids[x + y * 9].setGuardian(crab);
+        	        setEnergyScore(getEnergyScore() - crab.getEnergyPrice());
+        	    }
         	}
-
+        		
             activeGuardian = GameWindow.GuardianType.None;
         }
     }

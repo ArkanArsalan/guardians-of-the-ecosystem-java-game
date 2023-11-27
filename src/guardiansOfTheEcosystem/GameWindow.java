@@ -8,7 +8,8 @@ public class GameWindow extends JFrame {
     enum GuardianType {
         None,
         BearCat,
-        Porcupine
+        Porcupine,
+        Crab
     };
 
     public GameWindow() {
@@ -37,6 +38,12 @@ public class GameWindow extends JFrame {
         getLayeredPane().add(porcupineCard, new Integer(2));
         porcupineCard.setAction((ActionEvent e) -> {
             gp.setActiveGuardian(GuardianType.Porcupine);
+        });
+        GuardianCard crabCard = new GuardianCard(new ImageIcon(this.getClass().getResource("images/card_peashooter.png")).getImage());
+        crabCard.setLocation(240, 8);
+        getLayeredPane().add(crabCard, new Integer(2));
+        crabCard.setAction((ActionEvent e) -> {
+            gp.setActiveGuardian(GuardianType.Crab);
         });
         
 
