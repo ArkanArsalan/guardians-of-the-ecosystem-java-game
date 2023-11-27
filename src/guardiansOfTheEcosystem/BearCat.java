@@ -1,21 +1,62 @@
 package guardiansOfTheEcosystem;
 
+import java.awt.Rectangle;
+
 import javax.swing.Timer;
 
-public class BearCat extends Guardian {
+public class BearCat {
 	
-	private Timer shootTimer;
+	private int posX;
+    protected World gp;
+    private int myLane;
+	
+	public BearCat(World parent, int lane, int startX) {
+        this.gp = parent;
+        this.myLane = lane;
+        posX = startX;
+    }
+	
+	
+	public void advance() {
+        Rectangle pRect = new Rectangle(posX, 130 + myLane * 120, 28, 28);
+        for (int i = 0; i < gp.getEnemyLane().get(myLane).size(); i++) {
+            Enemy z = gp.getEnemyLane().get(myLane).get(i);
+            Rectangle zRect = new Rectangle(z.getPosX(), 109 + myLane * 120, 400, 120);
+            if (pRect.intersects(zRect)) {
+                z.setHealth(z.getHealth() - 300);
+                boolean exit = false;
+                if (z.getHealth() < 0) {
+                    System.out.println("ZOMBIE DIED");
 
-	public BearCat(World gp, int x, int y, int health, int energyPrice) {
-		super(gp, x, y, health, 100);
-		
+                    gp.getEnemyLane().get(myLane).remove(i);
+                    World.setProgress(10);
+                    exit = true;
+                }
+                gp.getEnemyLane().get(myLane).remove(this);
+                if (exit) break;
+            }
+        }
+        /*if(posX > 2000){
+            gp.lanePeas.get(myLane).remove(this);
+        }*/
+        posX += 15;
+    }
 
-	}
+    public int getPosX() {
+        return posX;
+    }
 
-	@Override
-	public void stop() {
-		shootTimer.stop();
-	}
+    public void setPosX(int posX) {
+        this.posX = posX;
+    }
+
+    public int getMyLane() {
+        return myLane;
+    }
+
+    public void setMyLane(int myLane) {
+        this.myLane = myLane;
+    }
 	
 	
 }

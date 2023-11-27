@@ -49,4 +49,12 @@ public abstract class Guardian {
     public int getEnergyPrice() {
     	return energyPrice;
     }
+    
+    public World getGp() {
+        return gp;
+    }
+
+    public void setGp(World gp) {
+        this.gp = gp;
+    }
 }

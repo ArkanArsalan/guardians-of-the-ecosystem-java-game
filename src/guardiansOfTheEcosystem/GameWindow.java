@@ -7,10 +7,10 @@ public class GameWindow extends JFrame {
 
     enum GuardianType {
         None,
-        BearCat,
+        BearCatShooter,
         Porcupine,
         Crab
-    };
+    }
 
     public GameWindow() {
         setSize(1012, 785);
@@ -31,7 +31,7 @@ public class GameWindow extends JFrame {
         bearcatCard.setLocation(110, 8);
         getLayeredPane().add(bearcatCard, new Integer(2));
         bearcatCard.setAction((ActionEvent e) -> {
-            gp.setActiveGuardian(GuardianType.BearCat);
+            gp.setActiveGuardian(GuardianType.BearCatShooter);
         });
         GuardianCard porcupineCard = new GuardianCard(new ImageIcon(this.getClass().getResource("images/card_peashooter.png")).getImage());
         porcupineCard.setLocation(175, 8);
