@@ -20,7 +20,7 @@ public class World extends JLayeredPane implements MouseMotionListener {
     private Image bgImage;
     
     //guardian image
-    private Image bearCatShooterImage;
+    private Image bearCatImage;
     private Image porcupineImage;
     private Image crabImage;
     
@@ -51,7 +51,7 @@ public class World extends JLayeredPane implements MouseMotionListener {
     
     // List of lane
     private ArrayList<ArrayList<Enemy>> enemyLane;
-    private ArrayList<ArrayList<BearCat>> bearCatLane;
+    private ArrayList<ArrayList<ThrowableMaterial>> throwableMaterialLane;
     
     
     
@@ -86,7 +86,7 @@ public class World extends JLayeredPane implements MouseMotionListener {
         
         try {
             bgImage = new ImageIcon(this.getClass().getResource("images/mainBG.png")).getImage();
-            bearCatShooterImage = new ImageIcon(this.getClass().getResource("images/peashooter.gif")).getImage();
+            bearCatImage = new ImageIcon(this.getClass().getResource("images/peashooter.gif")).getImage();
             porcupineImage = new ImageIcon(this.getClass().getResource("images/freezepeashooter.gif")).getImage();
             crabImage = new ImageIcon(this.getClass().getResource("images/freezepeashooter.gif")).getImage();
             bearCatweaponImage = new ImageIcon(this.getClass().getResource("images/pea.png")).getImage();
@@ -127,12 +127,13 @@ public class World extends JLayeredPane implements MouseMotionListener {
         enemyLane.add(new ArrayList<>()); //line 4
         enemyLane.add(new ArrayList<>()); //line 5
         
-        bearCatLane = new ArrayList<>();
-        bearCatLane.add(new ArrayList<>()); //line 1
-        bearCatLane.add(new ArrayList<>()); //line 2
-        bearCatLane.add(new ArrayList<>()); //line 3
-        bearCatLane.add(new ArrayList<>()); //line 4
-        bearCatLane.add(new ArrayList<>()); //line 5
+        // Throwable material lane
+        throwableMaterialLane = new ArrayList<>();
+        throwableMaterialLane.add(new ArrayList<>()); //line 1
+        throwableMaterialLane.add(new ArrayList<>()); //line 2
+        throwableMaterialLane.add(new ArrayList<>()); //line 3
+        throwableMaterialLane.add(new ArrayList<>()); //line 4
+        throwableMaterialLane.add(new ArrayList<>()); //line 5
         
         // Produce enemys
         enemyProducer = new Timer(7000, (ActionEvent e) -> {            
@@ -175,11 +176,10 @@ public class World extends JLayeredPane implements MouseMotionListener {
                 enemy.move();
             }
 
-            for (int j = 0; j < bearCatLane.get(i).size(); j++) {
-                BearCat bearCat = bearCatLane.get(i).get(j);
-                bearCat.advance();
+            for (int j = 0; j < throwableMaterialLane.get(i).size(); j++) {
+                ThrowableMaterial tm = throwableMaterialLane.get(i).get(j);
+                tm.advance();
             }
-
         }
 
         for (int i = 0; i < activeEnergys.size(); i++) {
@@ -198,8 +198,8 @@ public class World extends JLayeredPane implements MouseMotionListener {
             Grid c = grids[i];
             if (c.assignedGuardian != null) {
                 Guardian guardian = c.assignedGuardian;
-                if (guardian instanceof BearCatShooter) {
-                    g.drawImage(bearCatShooterImage, 60 + (i % 9) * 100, 129 + (i / 9) * 120, null);
+                if (guardian instanceof BearCat) {
+                    g.drawImage(bearCatImage, 60 + (i % 9) * 100, 129 + (i / 9) * 120, null);
                 }
                 if (guardian instanceof Porcupine) {
                     g.drawImage(porcupineImage, 60 + (i % 9) * 100, 129 + (i / 9) * 120, null);
@@ -217,14 +217,14 @@ public class World extends JLayeredPane implements MouseMotionListener {
                 }
             }
             
-        for (int j = 0; j < bearCatLane.get(i).size(); j++) {
-            BearCat bearCat = bearCatLane.get(i).get(j);
-            if (bearCat instanceof BearCat) {
-                g.drawImage(bearCatweaponImage, bearCat.getPosX(), 130 + (i * 120), null);
-                }
-            }
+	        for (int j = 0; j < throwableMaterialLane.get(i).size(); j++) {
+	            ThrowableMaterial tm = throwableMaterialLane.get(i).get(j);
+	            if (tm instanceof ThrowableMaterial) {
+	                g.drawImage(bearCatweaponImage, tm.getPosX(), 130 + (i * 120), null);
+	            }
+	        }
         }
-       }
+    }
     
     private class GuardianActionListener implements ActionListener {
 
@@ -237,8 +237,8 @@ public class World extends JLayeredPane implements MouseMotionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-        	if (activeGuardian == GameWindow.GuardianType.BearCatShooter) {
-        	    Guardian bearcat = new BearCatShooter(World.this, x, y, 100, 100);
+        	if (activeGuardian == GameWindow.GuardianType.BearCat) {
+        	    Guardian bearcat = new BearCat(World.this, x, y, 100, 100);
         	    if (getEnergyScore() >= bearcat.getEnergyPrice()) {
         	        grids[x + y * 9].setGuardian(bearcat);
         	        setEnergyScore(getEnergyScore() - bearcat.getEnergyPrice());
@@ -315,12 +315,12 @@ public class World extends JLayeredPane implements MouseMotionListener {
         this.enemyLane = enemyLane;
     }
     
-    public ArrayList<ArrayList<BearCat>> getbearCatLane() {
-        return bearCatLane;
+    public ArrayList<ArrayList<ThrowableMaterial>> getThrowableMaterialLane() {
+        return throwableMaterialLane;
     }
 
-    public void setbearCatLane(ArrayList<ArrayList<BearCat>> bearCatLane) {
-        this.bearCatLane = bearCatLane;
+    public void setThrowableMaterialLane(ArrayList<ArrayList<ThrowableMaterial>> throwableMaterialLane) {
+        this.throwableMaterialLane = throwableMaterialLane;
     }
 
 	@Override

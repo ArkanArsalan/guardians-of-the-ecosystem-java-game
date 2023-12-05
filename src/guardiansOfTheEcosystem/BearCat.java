@@ -1,62 +1,27 @@
 package guardiansOfTheEcosystem;
 
-import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
 
 import javax.swing.Timer;
 
-public class BearCat {
+public class BearCat extends Guardian {
 	
-	private int posX;
-    protected World gp;
-    private int myLane;
-	
-	public BearCat(World parent, int lane, int startX) {
-        this.gp = parent;
-        this.myLane = lane;
-        posX = startX;
-    }
-	
-	
-	public void advance() {
-        Rectangle pRect = new Rectangle(posX, 130 + myLane * 120, 28, 28);
-        for (int i = 0; i < gp.getEnemyLane().get(myLane).size(); i++) {
-            Enemy enemy = gp.getEnemyLane().get(myLane).get(i);
-            Rectangle enemyRect = new Rectangle(enemy.getPosX(), 109 + myLane * 120, 400, 120);
-            if (pRect.intersects(enemyRect)) {
-                enemy.setHealth(enemy.getHealth() - 300);
-                boolean exit = false;
-                if (enemy.getHealth() < 0) {
-                    System.out.println("ZOMBIE DIED");
+	private Timer shootTimer;
 
-                    gp.getEnemyLane().get(myLane).remove(i);
-                    World.setProgress(10);
-                    exit = true;
-                }
-                gp.getEnemyLane().get(myLane).remove(this);
-                if (exit) break;
+	public BearCat(World gp, int x, int y, int health, int energyPrice) {
+		super(gp, x, y, health, energyPrice);
+		shootTimer = new Timer(2000, (ActionEvent e) -> {
+            if (getGp().getEnemyLane().get(y).size() > 0) {
+                getGp().getThrowableMaterialLane().get(y).add(new ThrowableMaterial(getGp(), y, 103 + this.getX() * 100));
             }
-        }
-        /*if(posX > 2000){
-            gp.lanePeas.get(myLane).remove(this);
-        }*/
-        posX += 15;
-    }
-
-    public int getPosX() {
-        return posX;
-    }
-
-    public void setPosX(int posX) {
-        this.posX = posX;
-    }
-
-    public int getMyLane() {
-        return myLane;
-    }
-
-    public void setMyLane(int myLane) {
-        this.myLane = myLane;
-    }
+        });
+        shootTimer.start();
+	}
 	
+	@Override
+	public void stop() {
+		shootTimer.stop();
+	}
 	
 }
+
