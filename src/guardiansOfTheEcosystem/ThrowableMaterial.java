@@ -37,15 +37,16 @@ public class ThrowableMaterial {
                 enemy.setHealth(enemy.getHealth() - 300);
                 boolean exit = false;
                 
-                if (enemy.getHealth() < 0) {
+                System.out.println(enemy.getHealth());
+                if (enemy.getHealth() <= 0) {
                     System.out.println("ZOMBIE DIED");
                     
                     gp.getEnemyLane().get(myLane).remove(i);
-                    World.setProgress(10);
+                    
                     exit = true;
                 }
                 
-                gp.getEnemyLane().get(myLane).remove(this);
+                gp.getThrowableMaterialLane().get(myLane).remove(this);
                 
                 if (exit) {
                 	break;

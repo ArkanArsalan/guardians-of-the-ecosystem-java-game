@@ -29,6 +29,8 @@ public class World extends JLayeredPane implements MouseMotionListener {
     
     //shoot image
     private Image bearCatweaponImage;
+    private Image porcupineweaponImage;
+    private Image crabweaponImage;
     
     // List of energy
     private ArrayList<Energy> activeEnergys;
@@ -86,10 +88,12 @@ public class World extends JLayeredPane implements MouseMotionListener {
         
         try {
             bgImage = new ImageIcon(this.getClass().getResource("images/mainBG.png")).getImage();
-            bearCatImage = new ImageIcon(this.getClass().getResource("images/peashooter.gif")).getImage();
-            porcupineImage = new ImageIcon(this.getClass().getResource("images/freezepeashooter.gif")).getImage();
-            crabImage = new ImageIcon(this.getClass().getResource("images/freezepeashooter.gif")).getImage();
-            bearCatweaponImage = new ImageIcon(this.getClass().getResource("images/pea.png")).getImage();
+            bearCatImage = new ImageIcon(this.getClass().getResource("images/bearcat.png")).getImage();
+            porcupineImage = new ImageIcon(this.getClass().getResource("images/porcupine.png")).getImage();
+            crabImage = new ImageIcon(this.getClass().getResource("images/crab.png")).getImage();
+            bearCatweaponImage = new ImageIcon(this.getClass().getResource("images/bearcatweapon.png")).getImage();
+            porcupineweaponImage = new ImageIcon(this.getClass().getResource("images/porcupineweapon.png")).getImage();
+            crabweaponImage = new ImageIcon(this.getClass().getResource("images/crabweapon.png")).getImage();
             
             sawManImage = new ImageIcon(this.getClass().getResource("images/zombie1.png")).getImage();
         } catch (Exception e) {
@@ -199,13 +203,13 @@ public class World extends JLayeredPane implements MouseMotionListener {
             if (c.assignedGuardian != null) {
                 Guardian guardian = c.assignedGuardian;
                 if (guardian instanceof BearCat) {
-                    g.drawImage(bearCatImage, 60 + (i % 9) * 100, 129 + (i / 9) * 120, null);
+                    g.drawImage(bearCatImage, 50 + (i % 9) * 100, 129 + (i / 9) * 120, null);
                 }
                 if (guardian instanceof Porcupine) {
-                    g.drawImage(porcupineImage, 60 + (i % 9) * 100, 129 + (i / 9) * 120, null);
+                    g.drawImage(porcupineImage, 50 + (i % 9) * 100, 129 + (i / 9) * 120, null);
                 }
                 if (guardian instanceof Crab) {
-                    g.drawImage(crabImage, 60 + (i % 9) * 100, 129 + (i / 9) * 120, null);
+                    g.drawImage(crabImage, 50 + (i % 9) * 100, 129 + (i / 9) * 120, null);
                 }
             }
         }
@@ -250,7 +254,7 @@ public class World extends JLayeredPane implements MouseMotionListener {
         	        setEnergyScore(getEnergyScore() - porcupine.getEnergyPrice());
         	    }
         	} else if (activeGuardian == GameWindow.GuardianType.Crab) {
-        	    Guardian crab = new Porcupine(World.this, x, y, 100, 100);
+        	    Guardian crab = new Crab(World.this, x, y, 100, 100);
         	    if (getEnergyScore() >= crab.getEnergyPrice()) {
         	        grids[x + y * 9].setGuardian(crab);
         	        setEnergyScore(getEnergyScore() - crab.getEnergyPrice());
