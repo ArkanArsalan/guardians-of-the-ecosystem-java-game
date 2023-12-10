@@ -265,25 +265,7 @@ public class World extends JLayeredPane implements MouseMotionListener {
         }
     }
     
-    static int progress = 0;
-
-    public static void setProgress(int num) {
-        progress = progress + num;
-        System.out.println(progress);
-        if (progress >= 150) {
-            if ("1".equals(LevelData.LEVEL_NUMBER)) {
-                JOptionPane.showMessageDialog(null, "LEVEL_CONTENT Completed !!!" + '\n' + "Starting next LEVEL_CONTENT");
-                GameWindow.gw.dispose();
-                LevelData.write("2");
-                GameWindow.gw = new GameWindow();
-            } else {
-                JOptionPane.showMessageDialog(null, "LEVEL_CONTENT Completed !!!" + '\n' + "More Levels will come soon !!!" + '\n' + "Resetting data");
-                LevelData.write("1");
-                System.exit(0);
-            }
-            progress = 0;
-        }
-    }
+    
     
     
     public GameWindow.GuardianType getActiveGuardian() {
