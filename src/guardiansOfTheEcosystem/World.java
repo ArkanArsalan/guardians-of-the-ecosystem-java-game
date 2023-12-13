@@ -1,9 +1,6 @@
 package guardiansOfTheEcosystem;
 
 import javax.swing.*;
-
-import guardiansOfTheEcosystem.GameWindow.GuardianType;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,9 +10,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class World extends JLayeredPane implements MouseMotionListener {
-	
-	// Variable to store image
-	
+
+    	
 	//bg image
     private Image bgImage;
     
@@ -29,8 +25,6 @@ public class World extends JLayeredPane implements MouseMotionListener {
     
     //shoot image
     private Image bearCatweaponImage;
-    private Image porcupineweaponImage;
-    private Image crabweaponImage;
     
     // List of energy
     private ArrayList<Energy> activeEnergys;
@@ -73,9 +67,10 @@ public class World extends JLayeredPane implements MouseMotionListener {
     private int dificulty = 1;
     
     // Variable to store current guardian
-    private GameWindow.GuardianType activeGuardian = GameWindow.GuardianType.None;
+    private GameScreenPanel.GuardianType activeGuardian = GameScreenPanel.GuardianType.None;
     
     private Grid[] grids;
+
 
     public World(JLabel energyScoreBoard) {
         setSize(1000, 752);
@@ -92,8 +87,6 @@ public class World extends JLayeredPane implements MouseMotionListener {
             porcupineImage = new ImageIcon(this.getClass().getResource("images/porcupine.png")).getImage();
             crabImage = new ImageIcon(this.getClass().getResource("images/crab.png")).getImage();
             bearCatweaponImage = new ImageIcon(this.getClass().getResource("images/bearcatweapon.png")).getImage();
-            porcupineweaponImage = new ImageIcon(this.getClass().getResource("images/porcupineweapon.png")).getImage();
-            crabweaponImage = new ImageIcon(this.getClass().getResource("images/crabweapon.png")).getImage();
             
             sawManImage = new ImageIcon(this.getClass().getResource("images/zombie1.png")).getImage();
         } catch (Exception e) {
@@ -101,68 +94,7 @@ public class World extends JLayeredPane implements MouseMotionListener {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
         
-        // Redraw every 25 milisecond
-        redrawTimer = new Timer(25, (ActionEvent e) -> {
-            repaint();
-        });
-        redrawTimer.start();
-        
-        
-        // Produce energys
-        activeEnergys = new ArrayList<>();
-        
-        gameplayTimer = new Timer(60, (ActionEvent e) -> gameplay());
-        gameplayTimer.start();
-        
-        energyProducer = new Timer(2500, (ActionEvent e) -> {
-            Random random = new Random();
-            Energy energy = new Energy(this, random.nextInt(800) + 100, 0, random.nextInt(300) + 200);
-            activeEnergys.add(energy);
-            add(energy, 1);
-        });
-        
-        energyProducer.start();
-        
-        // Enemy lane
-        enemyLane = new ArrayList<>();
-        enemyLane.add(new ArrayList<>()); //line 1
-        enemyLane.add(new ArrayList<>()); //line 2
-        enemyLane.add(new ArrayList<>()); //line 3
-        enemyLane.add(new ArrayList<>()); //line 4
-        enemyLane.add(new ArrayList<>()); //line 5
-        
-        // Throwable material lane
-        throwableMaterialLane = new ArrayList<>();
-        throwableMaterialLane.add(new ArrayList<>()); //line 1
-        throwableMaterialLane.add(new ArrayList<>()); //line 2
-        throwableMaterialLane.add(new ArrayList<>()); //line 3
-        throwableMaterialLane.add(new ArrayList<>()); //line 4
-        throwableMaterialLane.add(new ArrayList<>()); //line 5
-        
-        // Produce enemys
-        enemyProducer = new Timer(7000, (ActionEvent e) -> {            
-            String[] enemyList = dificultyEnemyList[dificulty - 1];
-            int[][] dValue = dificultyValue[dificulty - 1];
-            
-            Enemy enemy = null;
-            
-            Random random = new Random();
-            int randomLane = random.nextInt(5);
-            int randomNumber = random.nextInt(100);
-            
-            for (int i = 0; i < dValue.length; i++) {
-                if (randomNumber >= dValue[i][0] && randomNumber <= dValue[i][1]) {
-                    enemy = Enemy.getEnemy(enemyList[i], this, randomLane);
-                }
-            }
-            
-            enemyLane.get(randomLane).add(enemy);
-        });
-        
-        enemyProducer.start();
-        
-        
-        
+        // Set the grid for guardians
         grids = new Grid[45];
         for (int i = 0; i < 45; i++) {
             Grid g = new Grid();
@@ -172,8 +104,150 @@ public class World extends JLayeredPane implements MouseMotionListener {
             add(g);
         }
         
+        // Set enemy lane
+        enemyLane = new ArrayList<>();
+        enemyLane.add(new ArrayList<>()); //line 1
+        enemyLane.add(new ArrayList<>()); //line 2
+        enemyLane.add(new ArrayList<>()); //line 3
+        enemyLane.add(new ArrayList<>()); //line 4
+        enemyLane.add(new ArrayList<>()); //line 5
+        
+        // Set throwable material lane
+        throwableMaterialLane = new ArrayList<>();
+        throwableMaterialLane.add(new ArrayList<>()); //line 1
+        throwableMaterialLane.add(new ArrayList<>()); //line 2
+        throwableMaterialLane.add(new ArrayList<>()); //line 3
+        throwableMaterialLane.add(new ArrayList<>()); //line 4
+        throwableMaterialLane.add(new ArrayList<>()); //line 5
+        
+        // Energys
+        activeEnergys = new ArrayList<>();
     }
+
+    // ... (kode yang sudah ada)
+
+    protected void startGame() {
+               // Redraw every 25 milisecond
+               redrawTimer = new Timer(25, (ActionEvent e) -> {
+                repaint();
+            });
+            redrawTimer.start();
+            
+            // Gameplay Timer
+            gameplayTimer = new Timer(60, (ActionEvent e) -> gameplay());
+            gameplayTimer.start();
+            
+            // Produce energy
+            energyProducer = new Timer(2500, (ActionEvent e) -> {
+                Random random = new Random();
+                Energy energy = new Energy(this, random.nextInt(800) + 100, 0, random.nextInt(300) + 200);
+                activeEnergys.add(energy);
+                add(energy, 1);
+            });
+            
+            energyProducer.start();
+           
+            
+            // Produce enemys
+            enemyProducer = new Timer(7000, (ActionEvent e) -> {            
+                String[] enemyList = dificultyEnemyList[dificulty - 1];
+                int[][] dValue = dificultyValue[dificulty - 1]; 	
+                
+                Enemy enemy = null;
+                
+                Random random = new Random();
+                int randomLane = random.nextInt(5);
+                int randomNumber = random.nextInt(100);
+                
+                for (int i = 0; i < dValue.length; i++) {
+                    if (randomNumber >= dValue[i][0] && randomNumber <= dValue[i][1]) {
+                        enemy = Enemy.getEnemy(enemyList[i], this, randomLane);
+                    }
+                }
+                
+                enemyLane.get(randomLane).add(enemy);
+            });
+            
+            enemyProducer.start();
+        }
+        
     
+
+    public void reset() {
+        // Stop timers
+        stopTimers();
+
+        // Reset weapons
+        resetWeapons();
+
+        setEnergyScore(500);
+
+        // Remove all components
+        removeAllComponents();
+
+        repaint();
+    }
+
+    private void stopTimers() {
+    	if (redrawTimer != null && redrawTimer.isRunning()) {
+            redrawTimer.stop();
+        }
+        if (energyProducer != null && energyProducer.isRunning()) {
+            energyProducer.stop();
+        }
+        if (gameplayTimer != null && gameplayTimer.isRunning()) {
+            gameplayTimer.stop();
+        }
+        if (enemyProducer != null && enemyProducer.isRunning()) {
+            enemyProducer.stop();
+        }
+    }
+
+    private void resetWeapons() {
+        // Stop the energy production timer
+        if (energyProducer != null && energyProducer.isRunning()) {
+            energyProducer.stop();
+        }
+
+        // Clear the activeEnergys list
+        activeEnergys.clear();
+       
+    }
+
+    private void removeAllComponents() {
+        // Set the grid for guardians
+        grids = new Grid[45];
+        for (int i = 0; i < 45; i++) {
+            Grid g = new Grid();
+            g.setLocation(44 + (i % 9) * 100, 109 + (i / 9) * 120);
+            g.setAction(new GuardianActionListener((i % 9), (i / 9)));
+            grids[i] = g;
+            add(g);
+        }
+
+        // Reset guardians in grids
+        for (Grid grid : grids) {
+            grid.resetGuardian();
+        }
+
+        // Remove all elements from enemy lane
+        enemyLane = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            enemyLane.add(new ArrayList<>());
+        }
+
+        // Remove all elements from throwable material lane
+        throwableMaterialLane = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            throwableMaterialLane.add(new ArrayList<>());
+        }
+
+        // Remove all elements from activeEnergys
+        activeEnergys = new ArrayList<>();
+        
+       
+    }
+
     private void gameplay() {
         for (int i = 0; i < 5; i++) {
             for (Enemy enemy : enemyLane.get(i)) {
@@ -191,45 +265,49 @@ public class World extends JLayeredPane implements MouseMotionListener {
         }
 
     }
-    
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.drawImage(bgImage, 0, 0, null);
-        
+
         //Draw Guardians
         for (int i = 0; i < 45; i++) {
             Grid c = grids[i];
             if (c.assignedGuardian != null) {
                 Guardian guardian = c.assignedGuardian;
                 if (guardian instanceof BearCat) {
-                    g.drawImage(bearCatImage, 50 + (i % 9) * 100, 129 + (i / 9) * 120, null);
+                    g.drawImage(bearCatImage, 60 + (i % 9) * 100, 129 + (i / 9) * 120, null);
                 }
                 if (guardian instanceof Porcupine) {
-                    g.drawImage(porcupineImage, 50 + (i % 9) * 100, 129 + (i / 9) * 120, null);
+                    g.drawImage(porcupineImage, 60 + (i % 9) * 100, 129 + (i / 9) * 120, null);
                 }
                 if (guardian instanceof Crab) {
-                    g.drawImage(crabImage, 50 + (i % 9) * 100, 129 + (i / 9) * 120, null);
+                    g.drawImage(crabImage, 60 + (i % 9) * 100, 129 + (i / 9) * 120, null);
                 }
             }
         }
-        
+
+        // Draw Enemies and Weapons
         for (int i = 0; i < 5; i++) {
             for (Enemy enemy : enemyLane.get(i)) {
                 if (enemy instanceof SawMan) {
                     g.drawImage(sawManImage, enemy.getPosX(), 109 + (i * 120), null);
                 }
             }
-            
-	        for (int j = 0; j < throwableMaterialLane.get(i).size(); j++) {
-	            ThrowableMaterial tm = throwableMaterialLane.get(i).get(j);
-	            if (tm instanceof ThrowableMaterial) {
+
+            for (int j = 0; j < throwableMaterialLane.get(i).size(); j++) {
+                ThrowableMaterial tm = throwableMaterialLane.get(i).get(j);
+                if (tm instanceof ThrowableMaterial) {
 	                g.drawImage(bearCatweaponImage, tm.getPosX(), 130 + (i * 120), null);
 	            }
-	        }
+            }
         }
+
+        // Remove weapons that have reached the bottom
+        activeEnergys.removeIf(energy -> energy.getY() >= getHeight());
     }
-    
+
     private class GuardianActionListener implements ActionListener {
 
         int x, y;
@@ -241,19 +319,19 @@ public class World extends JLayeredPane implements MouseMotionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-        	if (activeGuardian == GameWindow.GuardianType.BearCat) {
+            if (activeGuardian == GameScreenPanel.GuardianType.BearCat) {
         	    Guardian bearcat = new BearCat(World.this, x, y, 100, 100);
         	    if (getEnergyScore() >= bearcat.getEnergyPrice()) {
         	        grids[x + y * 9].setGuardian(bearcat);
         	        setEnergyScore(getEnergyScore() - bearcat.getEnergyPrice());
         	    }
-        	} else if (activeGuardian == GameWindow.GuardianType.Porcupine) {
+        	} else if (activeGuardian == GameScreenPanel.GuardianType.Porcupine) {
         	    Guardian porcupine = new Porcupine(World.this, x, y, 100, 200);
         	    if (getEnergyScore() >= porcupine.getEnergyPrice()) {
         	        grids[x + y * 9].setGuardian(porcupine);
         	        setEnergyScore(getEnergyScore() - porcupine.getEnergyPrice());
         	    }
-        	} else if (activeGuardian == GameWindow.GuardianType.Crab) {
+        	} else if (activeGuardian == GameScreenPanel.GuardianType.Crab) {
         	    Guardian crab = new Crab(World.this, x, y, 100, 100);
         	    if (getEnergyScore() >= crab.getEnergyPrice()) {
         	        grids[x + y * 9].setGuardian(crab);
@@ -261,18 +339,15 @@ public class World extends JLayeredPane implements MouseMotionListener {
         	    }
         	}
         		
-            activeGuardian = GameWindow.GuardianType.None;
+            activeGuardian = GameScreenPanel.GuardianType.None;
         }
     }
-    
-    
-    
-    
-    public GameWindow.GuardianType getActiveGuardian() {
+
+    public GameScreenPanel.GuardianType getActiveGuardian() {
         return activeGuardian;
     }
     
-    public void setActiveGuardian(GameWindow.GuardianType activeGuardian) {
+    public void setActiveGuardian(GameScreenPanel.GuardianType activeGuardian) {
         this.activeGuardian = activeGuardian;
     }
     

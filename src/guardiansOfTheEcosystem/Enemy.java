@@ -1,6 +1,6 @@
 package guardiansOfTheEcosystem;
 
-import javax.swing.JOptionPane;
+import javax.swing.JLabel;
 
 public class Enemy {
 
@@ -27,12 +27,12 @@ public class Enemy {
             
             if (posX < 0) {
                 isMoving = false;
-                JOptionPane.showMessageDialog(gp, "Enemy is destroying the ecosystem !" + '\n' + "Starting the level again");
-                GameWindow.gw.dispose();
-                GameWindow.gw = new GameWindow();
+                GameWindow.gp.showPanel("GameOver");
+                GameScreenPanel.worldPanel.reset();
             }
         }
     }
+    
     
     public static Enemy getEnemy(String type, World parent, int lane) {
         Enemy enemy = null;

@@ -1,0 +1,53 @@
+package guardiansOfTheEcosystem;
+
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+public class GameOverPanel extends JPanel {
+	
+    public GameOverPanel() {
+        // Set the background color to red
+        setBackground(Color.RED);
+
+        // Use GridBagLayout for flexibility in component placement
+        setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.insets = new java.awt.Insets(10, 10, 10, 10); // Add some padding
+
+        // Create a game over label
+        JLabel gameOverLabel = new JLabel("Game Over");
+        gameOverLabel.setFont(new Font("Arial", Font.BOLD, 36));
+        gameOverLabel.setForeground(Color.WHITE); // Set text color to white
+
+        // Create a label for the message
+        JLabel messageLabel = new JLabel("The Enemy has Destroyed the Ecosystem.");
+        messageLabel.setFont(new Font("Arial", Font.PLAIN, 18));
+        messageLabel.setForeground(Color.WHITE); // Set text color to white
+
+        // Create a restart button and bind an action listener to switch panels
+        JButton restartButton = new JButton("Back to Main Menu");
+        restartButton.addActionListener(this::restartGame);
+
+        // Add components to the panel with centered layout
+        add(gameOverLabel, gbc);
+        gbc.gridy++;
+        add(messageLabel, gbc);
+        gbc.gridy++;
+        add(restartButton, gbc);
+    }
+    
+    private void restartGame(ActionEvent e) {
+        GamePanel parent = (GamePanel) getParent();
+        parent.showPanel("MainMenu");
+    }
+    
+}

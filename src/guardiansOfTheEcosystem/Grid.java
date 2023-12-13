@@ -67,4 +67,8 @@ public class Grid extends JPanel implements MouseListener {
     public void mouseExited(MouseEvent e) {
 
     }
+    public void resetGuardian() {
+        assignedGuardian = null;
+    }
+
 }

@@ -1,61 +1,23 @@
 package guardiansOfTheEcosystem;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
 
 public class GameWindow extends JFrame {
+	
+	static GamePanel gp;
+	
+	public GameWindow() {
+		 setTitle("Guardian of the Ecosystem");
+		 setSize(1012, 785);
+		 setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		 setLocationRelativeTo(null); 
+		 gp = new GamePanel();
+		 add(gp);
+	}
 
-    enum GuardianType {
-        None,
-        BearCat,
-        Porcupine,
-        Crab
-    }
-
-    public GameWindow() {
-        setSize(1012, 785);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setLayout(null);
-
-        JLabel energy = new JLabel("energy");
-        energy.setLocation(50, 80);
-        energy.setSize(60, 20);
-        
-        // First layer : show background of the world
-        World gp = new World(energy);
-        gp.setLocation(0, 0);
-        getLayeredPane().add(gp, new Integer(0));
-        
-        // Second Layer : show guardian card and energy score board
-        GuardianCard bearcatCard = new GuardianCard(new ImageIcon(this.getClass().getResource("images/card_peashooter.png")).getImage());
-        bearcatCard.setLocation(110, 8);
-        getLayeredPane().add(bearcatCard, new Integer(2));
-        bearcatCard.setAction((ActionEvent e) -> {
-            gp.setActiveGuardian(GuardianType.BearCat);
-        });
-        GuardianCard porcupineCard = new GuardianCard(new ImageIcon(this.getClass().getResource("images/card_peashooter.png")).getImage());
-        porcupineCard.setLocation(175, 8);
-        getLayeredPane().add(porcupineCard, new Integer(2));
-        porcupineCard.setAction((ActionEvent e) -> {
-            gp.setActiveGuardian(GuardianType.Porcupine);
-        });
-        GuardianCard crabCard = new GuardianCard(new ImageIcon(this.getClass().getResource("images/card_peashooter.png")).getImage());
-        crabCard.setLocation(240, 8);
-        getLayeredPane().add(crabCard, new Integer(2));
-        crabCard.setAction((ActionEvent e) -> {
-            gp.setActiveGuardian(GuardianType.Crab);
-        });
-        
-
-        getLayeredPane().add(energy, new Integer(2));
-        setResizable(false);
-        setVisible(true);
-    }
-
-    static GameWindow gw;
-
-    public static void main(String[] args) {
-        gw = new GameWindow();
-    }
-
+	public static void main(String[] args) {
+		java.awt.EventQueue.invokeLater(() -> {
+			new GameWindow().setVisible(true);
+		});
+	}
 }
