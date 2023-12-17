@@ -10,18 +10,19 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class World extends JLayeredPane implements MouseMotionListener {
-	//bg image
+	// Background image
     private Image bgImage;
     
-    //guardian image
+    // Guardian image
     private Image bearCatImage;
     private Image porcupineImage;
     private Image crabImage;
     
-    //enemy image
+    // Enemy image
     private Image sawManImage;
+    private Image swordManImage;
     
-    // weapon image
+    // Weapon image
     private Image bearCatweaponImage;
     private Image crabweaponImage;
     private Image porcupineweaponImage;
@@ -49,8 +50,6 @@ public class World extends JLayeredPane implements MouseMotionListener {
     private ArrayList<ArrayList<Enemy>> enemyLane;
     private ArrayList<ArrayList<ThrowableMaterial>> throwableMaterialLane;
     
-    
-    
     /*
      * dificultyEnemyList:
      * 	Determine the list of enemy for each level (index = level - 1)
@@ -62,15 +61,14 @@ public class World extends JLayeredPane implements MouseMotionListener {
      * 	initial dificulty set to 1
      * 
      * */ 
-    public String[][] dificultyEnemyList = {{"SawMan"}};
-    public int[][][] dificultyValue = {{{0, 99}}};
+    public String[][] dificultyEnemyList = {{"SawMan", "SwordMan"}};
+    public int[][][] dificultyValue = {{{0, 99}, {0, 49}}};
     private int dificulty = 1;
     
     // Variable to store current guardian
     private GameScreenPanel.GuardianType activeGuardian = GameScreenPanel.GuardianType.None;
     
     private Grid[] grids;
-
 
     public World(JLabel energyScoreBoard) {
         setSize(1000, 752);
@@ -91,6 +89,7 @@ public class World extends JLayeredPane implements MouseMotionListener {
             porcupineweaponImage = new ImageIcon(this.getClass().getResource("images/porcupineweapon.png")).getImage();
             
             sawManImage = new ImageIcon(this.getClass().getResource("images/zombie1.png")).getImage();
+            swordManImage = new ImageIcon(this.getClass().getResource("images/zombie2.png")).getImage();
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -160,6 +159,7 @@ public class World extends JLayeredPane implements MouseMotionListener {
                 int randomNumber = random.nextInt(100);
                 
                 for (int i = 0; i < dValue.length; i++) {
+                	System.out.println(dValue.length);
                     if (randomNumber >= dValue[i][0] && randomNumber <= dValue[i][1]) {
                         enemy = Enemy.getEnemy(enemyList[i], this, randomLane);
                     }
@@ -292,6 +292,8 @@ public class World extends JLayeredPane implements MouseMotionListener {
             for (Enemy enemy : enemyLane.get(i)) {
                 if (enemy instanceof SawMan) {
                     g.drawImage(sawManImage, enemy.getPosX(), 109 + (i * 120), null);
+                } else if (enemy instanceof SwordMan) {
+                	g.drawImage(swordManImage, enemy.getPosX(), 109 + (i * 120), null);
                 }
             }
 
