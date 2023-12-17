@@ -7,23 +7,39 @@ public class Enemy {
     private int health;
     private int speed;
 
-
     private int posX = 1000;
     private int lane;
     private boolean isMoving = true;
     
     World gp;
 
-    public Enemy(World gp, int health, int speed, int enelane) {
+    public Enemy(World gp, int health, int speed, int enemylane) {
     	this.gp = gp;
     	this.health = health;
     	this.speed = speed;
-    	this.lane = enelane;
+    	this.lane = enemylane;
     }
     
     public void move() {
         if (isMoving) {
-            posX -= 1;
+            boolean isCollide = false;
+            Grid collided = null;
+            for (int i = lane * 9; i < (lane + 1) * 9; i++) {
+                if (gp.getGrids()[i].assignedGuardian != null && gp.getGrids()[i].isInsideGrid(posX)) {
+                    isCollide = true;
+                    collided = gp.getGrids()[i];
+                }
+            }
+            
+            // If enemy is in the grid of the guardian, attack the guardian, otherwise move
+            if (isCollide) {
+                collided.assignedGuardian.setHealth(collided.assignedGuardian.getHealth() - 10);
+                if (collided.assignedGuardian.getHealth() < 0) {
+                    collided.removeGuardian();
+                }
+            } else {
+            	posX -= speed;
+            }
             
             if (posX < 0) {
                 isMoving = false;
@@ -32,7 +48,6 @@ public class Enemy {
             }
         }
     }
-    
     
     public static Enemy getEnemy(String type, World parent, int lane) {
         Enemy enemy = null;
@@ -88,4 +103,5 @@ public class Enemy {
     public void setMoving(boolean moving) {
         isMoving = moving;
     }
+    
 }

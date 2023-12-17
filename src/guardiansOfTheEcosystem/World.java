@@ -386,6 +386,14 @@ public class World extends JLayeredPane implements MouseMotionListener {
     public void setThrowableMaterialLane(ArrayList<ArrayList<ThrowableMaterial>> throwableMaterialLane) {
         this.throwableMaterialLane = throwableMaterialLane;
     }
+    
+    public Grid[] getGrids() {
+        return grids;
+    }
+
+    public void setGrids(Grid[] grids) {
+        this.grids = grids;
+    }
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
