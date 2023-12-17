@@ -10,8 +10,6 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class World extends JLayeredPane implements MouseMotionListener {
-
-    	
 	//bg image
     private Image bgImage;
     
@@ -127,8 +125,8 @@ public class World extends JLayeredPane implements MouseMotionListener {
     // ... (kode yang sudah ada)
 
     protected void startGame() {
-               // Redraw every 25 milisecond
-               redrawTimer = new Timer(25, (ActionEvent e) -> {
+            // Redraw every 25 milisecond
+            redrawTimer = new Timer(25, (ActionEvent e) -> {
                 repaint();
             });
             redrawTimer.start();
@@ -171,7 +169,6 @@ public class World extends JLayeredPane implements MouseMotionListener {
             enemyProducer.start();
         }
         
-    
 
     public void reset() {
         // Stop timers

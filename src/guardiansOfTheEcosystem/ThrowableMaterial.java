@@ -9,13 +9,14 @@ public class ThrowableMaterial {
 	private int posX;
     protected World gp;
     private int myLane;
+    private int damage;
 	
-	public ThrowableMaterial(World parent, int lane, int startX) {
+	public ThrowableMaterial(World parent, int lane, int startX, int damage) {
         this.gp = parent;
         this.myLane = lane;
-        posX = startX;
+        this.posX = startX;
+        this.damage = damage;
     }
-	
 	
 	public void advance() {
         isHit();
@@ -34,7 +35,7 @@ public class ThrowableMaterial {
             Rectangle enemyRect = new Rectangle(enemy.getPosX(), 109 + myLane * 120, 400, 120);
             
             if (tmRect.intersects(enemyRect)) {
-                enemy.setHealth(enemy.getHealth() - 300);
+                enemy.setHealth(enemy.getHealth() - damage);
                 boolean exit = false;
                 
                 System.out.println(enemy.getHealth());
