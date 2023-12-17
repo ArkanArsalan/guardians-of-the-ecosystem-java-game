@@ -79,7 +79,7 @@ public class World extends JLayeredPane implements MouseMotionListener {
         this.energyScoreBoard = energyScoreBoard;
         
         // Set initial energy to 150
-        setEnergyScore(500);
+        setEnergyScore(150);
         
         try {
             bgImage = new ImageIcon(this.getClass().getResource("images/mainBG.png")).getImage();
@@ -323,20 +323,20 @@ public class World extends JLayeredPane implements MouseMotionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (activeGuardian == GameScreenPanel.GuardianType.BearCat) {
-        	    Guardian bearcat = new BearCat(World.this, x, y, 100, 100);
-        	    if (getEnergyScore() >= bearcat.getEnergyPrice()) {
+        	    if (getEnergyScore() >= 100) {
+        	    	Guardian bearcat = new BearCat(World.this, x, y, 100, 100);
         	        grids[x + y * 9].setGuardian(bearcat);
         	        setEnergyScore(getEnergyScore() - bearcat.getEnergyPrice());
         	    }
         	} else if (activeGuardian == GameScreenPanel.GuardianType.Porcupine) {
-        	    Guardian porcupine = new Porcupine(World.this, x, y, 100, 200);
-        	    if (getEnergyScore() >= porcupine.getEnergyPrice()) {
+        	    if (getEnergyScore() >= 200) {
+        	    	Guardian porcupine = new Porcupine(World.this, x, y, 100, 200);
         	        grids[x + y * 9].setGuardian(porcupine);
         	        setEnergyScore(getEnergyScore() - porcupine.getEnergyPrice());
         	    }
         	} else if (activeGuardian == GameScreenPanel.GuardianType.Crab) {
-        	    Guardian crab = new Crab(World.this, x, y, 100, 100);
-        	    if (getEnergyScore() >= crab.getEnergyPrice()) {
+        	    if (getEnergyScore() >= 175) {
+            	    Guardian crab = new Crab(World.this, x, y, 100, 175);
         	        grids[x + y * 9].setGuardian(crab);
         	        setEnergyScore(getEnergyScore() - crab.getEnergyPrice());
         	    }
