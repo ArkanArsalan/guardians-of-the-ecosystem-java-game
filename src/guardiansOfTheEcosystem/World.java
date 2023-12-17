@@ -21,8 +21,10 @@ public class World extends JLayeredPane implements MouseMotionListener {
     //enemy image
     private Image sawManImage;
     
-    //shoot image
+    // weapon image
     private Image bearCatweaponImage;
+    private Image crabweaponImage;
+    private Image porcupineweaponImage;
     
     // List of energy
     private ArrayList<Energy> activeEnergys;
@@ -85,6 +87,8 @@ public class World extends JLayeredPane implements MouseMotionListener {
             porcupineImage = new ImageIcon(this.getClass().getResource("images/porcupine.png")).getImage();
             crabImage = new ImageIcon(this.getClass().getResource("images/crab.png")).getImage();
             bearCatweaponImage = new ImageIcon(this.getClass().getResource("images/bearcatweapon.png")).getImage();
+            crabweaponImage = new ImageIcon(this.getClass().getResource("images/crabweapon.png")).getImage();
+            porcupineweaponImage = new ImageIcon(this.getClass().getResource("images/porcupineweapon.png")).getImage();
             
             sawManImage = new ImageIcon(this.getClass().getResource("images/zombie1.png")).getImage();
         } catch (Exception e) {
@@ -121,8 +125,6 @@ public class World extends JLayeredPane implements MouseMotionListener {
         // Energys
         activeEnergys = new ArrayList<>();
     }
-
-    // ... (kode yang sudah ada)
 
     protected void startGame() {
             // Redraw every 25 milisecond
@@ -285,7 +287,7 @@ public class World extends JLayeredPane implements MouseMotionListener {
             }
         }
 
-        // Draw Enemies and Weapons
+        // Draw Enemies and ThrowableMaterials
         for (int i = 0; i < 5; i++) {
             for (Enemy enemy : enemyLane.get(i)) {
                 if (enemy instanceof SawMan) {
@@ -295,8 +297,12 @@ public class World extends JLayeredPane implements MouseMotionListener {
 
             for (int j = 0; j < throwableMaterialLane.get(i).size(); j++) {
                 ThrowableMaterial tm = throwableMaterialLane.get(i).get(j);
-                if (tm instanceof ThrowableMaterial) {
+                if (tm instanceof Rock) {
 	                g.drawImage(bearCatweaponImage, tm.getPosX(), 130 + (i * 120), null);
+	            } else if (tm instanceof WaterBall) {
+	                g.drawImage(crabweaponImage, tm.getPosX(), 130 + (i * 120), null);
+	            } else if (tm instanceof Spike) {
+	                g.drawImage(porcupineweaponImage, tm.getPosX(), 130 + (i * 120), null);
 	            }
             }
         }
