@@ -23,19 +23,19 @@ public class Enemy {
     public void move() {
         if (isMoving) {
             boolean isCollide = false;
-            Grid collided = null;
+            Grid grid = null;
             for (int i = lane * 9; i < (lane + 1) * 9; i++) {
                 if (gp.getGrids()[i].assignedGuardian != null && gp.getGrids()[i].isInsideGrid(posX)) {
                     isCollide = true;
-                    collided = gp.getGrids()[i];
+                    grid = gp.getGrids()[i];
                 }
             }
             
             // If enemy is in the grid of the guardian, attack the guardian, otherwise move
             if (isCollide) {
-                collided.assignedGuardian.setHealth(collided.assignedGuardian.getHealth() - 10);
-                if (collided.assignedGuardian.getHealth() < 0) {
-                    collided.removeGuardian();
+                grid.assignedGuardian.setHealth(grid.assignedGuardian.getHealth() - 10);
+                if (grid.assignedGuardian.getHealth() < 0) {
+                    grid.removeGuardian();
                 }
             } else {
             	posX -= speed;
