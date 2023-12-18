@@ -8,6 +8,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.TimerTask;
 
 public class World extends JLayeredPane implements MouseMotionListener {
 	// Background image
@@ -47,6 +48,7 @@ public class World extends JLayeredPane implements MouseMotionListener {
     private Timer energyProducer;
     private Timer gameplayTimer;
     private Timer enemyProducer;
+    private Timer phaseChangeTimer;
     
     // List of lane
     private ArrayList<ArrayList<Enemy>> enemyLane;
@@ -71,6 +73,10 @@ public class World extends JLayeredPane implements MouseMotionListener {
     private GameScreenPanel.GuardianType activeGuardian = GameScreenPanel.GuardianType.None;
     
     private Grid[] grids;
+    
+    private boolean phaseChanged = false;
+    
+    private int currentPhase;
 
     public World(JLabel energyScoreBoard) {
         setSize(1000, 752);
@@ -83,6 +89,9 @@ public class World extends JLayeredPane implements MouseMotionListener {
         
         // Set intitial player score
         setPlayerScore(0);
+        
+        // Set initial phase
+        setCurrentPhase(1);
         
         try {
             bgImage = new ImageIcon(this.getClass().getResource("images/mainBG.png")).getImage();
@@ -160,21 +169,22 @@ public class World extends JLayeredPane implements MouseMotionListener {
                 Enemy enemy = null;
                 
                 Random random = new Random();
-                int randomLane = random.nextInt(5);
-                int randomNumber = random.nextInt(100);
-                
-                for (int i = 0; i < dValue.length; i++) {
-                	System.out.println(dValue.length);
-                    if (randomNumber >= dValue[i][0] && randomNumber <= dValue[i][1]) {
-                        enemy = Enemy.getEnemy(enemyList[i], this, randomLane);
+
+                for (int i = 0; i < dValue.length * currentPhase; i++) {
+                    int randomLane = random.nextInt(5);
+                    int randomNumber = random.nextInt(100);
+                	int index = i % 2;
+                    if (randomNumber >= dValue[index][0] && randomNumber <= dValue[index][1]) {
+                        enemy = Enemy.getEnemy(enemyList[index], this, randomLane);
+                        enemyLane.get(randomLane).add(enemy);
                     }
                 }
                 
-                enemyLane.get(randomLane).add(enemy);
             });
             
             enemyProducer.start();
-        }
+            
+    }
         
 
     public void reset() {
@@ -184,6 +194,7 @@ public class World extends JLayeredPane implements MouseMotionListener {
         // Set energy and player score
         setEnergyScore(150);
         setPlayerScore(0);
+        setCurrentPhase(1);
 
         // Remove all components
         removeAllComponents();
@@ -239,9 +250,15 @@ public class World extends JLayeredPane implements MouseMotionListener {
             activeEnergys.get(i).energyFall();
         }
         
-        if (playerScore == 100) {
+        if (playerScore == 200) {
             GameScreenPanel.worldPanel.reset();
             GameWindow.gp.showPanel("Won");   
+        } else if (playerScore == 50 && currentPhase == 1) {
+            currentPhase = 2;
+            showPhaseChangeText("Phase 2");
+        } else if (playerScore == 100 && currentPhase == 2) {
+            currentPhase = 3;
+            showPhaseChangeText("Phase 3");
         }
     }
 
@@ -293,6 +310,25 @@ public class World extends JLayeredPane implements MouseMotionListener {
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.BOLD, 16));
         g.drawString("Score: " + playerScore, getWidth() - 120, 20);
+        
+    }
+    
+    private void showPhaseChangeText(String text) {
+        JLabel phaseChangeLabel = new JLabel(text);
+        phaseChangeLabel.setFont(new Font("Arial", Font.BOLD, 36));
+        phaseChangeLabel.setForeground(Color.RED);
+        phaseChangeLabel.setHorizontalAlignment(JLabel.CENTER);
+        phaseChangeLabel.setVerticalAlignment(JLabel.CENTER);
+        phaseChangeLabel.setBounds(250, 300, 500, 50);
+        add(phaseChangeLabel, JLayeredPane.PALETTE_LAYER);
+        repaint();
+
+        // Start a timer to reset the phaseChanged text after 2 seconds
+        phaseChangeTimer = new Timer(2000, (ActionEvent evt) -> {
+            remove(phaseChangeLabel);
+            phaseChangeTimer.stop();
+        });
+        phaseChangeTimer.start();
     }
 
     private class GuardianActionListener implements ActionListener {
@@ -337,7 +373,11 @@ public class World extends JLayeredPane implements MouseMotionListener {
     public int getPlayerScore() {
     	return playerScore;
     }
-
+    
+    private void setCurrentPhase(int phase) {
+    	this.currentPhase = phase;
+    }
+    
     public GameScreenPanel.GuardianType getActiveGuardian() {
         return activeGuardian;
     }
