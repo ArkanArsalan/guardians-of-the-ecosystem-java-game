@@ -39,6 +39,9 @@ public class World extends JLayeredPane implements MouseMotionListener {
     // Variable to store energy
     private int energyScore;
     
+    // Variable to store player score
+    private int playerScore;
+    
     // All variables to store timer
     private Timer redrawTimer;
     private Timer energyProducer;
@@ -77,6 +80,9 @@ public class World extends JLayeredPane implements MouseMotionListener {
         
         // Set initial energy to 150
         setEnergyScore(150);
+        
+        // Set intitial player score
+        setPlayerScore(0);
         
         try {
             bgImage = new ImageIcon(this.getClass().getResource("images/mainBG.png")).getImage();
@@ -174,8 +180,10 @@ public class World extends JLayeredPane implements MouseMotionListener {
     public void reset() {
         // Stop timers
         stopTimers();
-
+        
+        // Set energy and player score
         setEnergyScore(150);
+        setPlayerScore(0);
 
         // Remove all components
         removeAllComponents();
@@ -276,6 +284,11 @@ public class World extends JLayeredPane implements MouseMotionListener {
 	            }
             }
         }
+        
+        // Draw Player Score
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Arial", Font.BOLD, 16));
+        g.drawString("Score: " + playerScore, getWidth() - 120, 20);
     }
 
     private class GuardianActionListener implements ActionListener {
@@ -311,6 +324,14 @@ public class World extends JLayeredPane implements MouseMotionListener {
         		
             activeGuardian = GameScreenPanel.GuardianType.None;
         }
+    }
+    
+    public void setPlayerScore(int newScore) {
+    	playerScore = newScore;
+    }
+    
+    public int getPlayerScore() {
+    	return playerScore;
     }
 
     public GameScreenPanel.GuardianType getActiveGuardian() {

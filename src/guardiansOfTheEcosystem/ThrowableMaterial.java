@@ -44,6 +44,8 @@ public class ThrowableMaterial {
                     
                     gp.getEnemyLane().get(myLane).remove(i);
                     
+                    gp.setPlayerScore(gp.getPlayerScore() + 10);
+                    
                     exit = true;
                 }
                 
