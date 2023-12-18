@@ -10,6 +10,7 @@ public class GamePanel extends JPanel {
 	MainMenuPanel mmp;
 	GameScreenPanel gsp;
 	GameOverPanel gop;
+	WonPanel wp;
 
 	public GamePanel() {
 	    setLayout(cardLayout);
@@ -17,10 +18,12 @@ public class GamePanel extends JPanel {
 	    mmp = new MainMenuPanel();
 	    gsp = new GameScreenPanel();
 	    gop = new GameOverPanel();
+	    wp = new WonPanel();
 	    
 	    add(mmp, "MainMenu");
 	    add(gsp, "GameScreen");
 	    add(gop, "GameOver");
+	    add(wp, "Won");
 	}
 	
 	public void showPanel(String name) {

@@ -238,7 +238,11 @@ public class World extends JLayeredPane implements MouseMotionListener {
         for (int i = 0; i < activeEnergys.size(); i++) {
             activeEnergys.get(i).energyFall();
         }
-
+        
+        if (playerScore == 100) {
+            GameScreenPanel.worldPanel.reset();
+            GameWindow.gp.showPanel("Won");   
+        }
     }
 
     @Override
