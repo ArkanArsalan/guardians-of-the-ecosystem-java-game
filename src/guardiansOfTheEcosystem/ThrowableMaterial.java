@@ -38,14 +38,9 @@ public class ThrowableMaterial {
                 enemy.setHealth(enemy.getHealth() - damage);
                 boolean exit = false;
                 
-                System.out.println(enemy.getHealth());
                 if (enemy.getHealth() <= 0) {
-                    System.out.println("ZOMBIE DIED");
-                    
                     gp.getEnemyLane().get(myLane).remove(i);
-                    
                     gp.setPlayerScore(gp.getPlayerScore() + 10);
-                    
                     exit = true;
                 }
                 
