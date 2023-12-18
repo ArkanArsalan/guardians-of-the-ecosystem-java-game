@@ -16,7 +16,9 @@ public class Energy extends JPanel implements MouseListener {
     private int endY;
 
 	private World gp;
-
+	
+	private int isDestroy = 200;
+	
     public Energy(World parent, int startX, int startY, int endY) {
         this.gp = parent;
         this.endY = endY;
@@ -39,15 +41,25 @@ public class Energy extends JPanel implements MouseListener {
     	// Move energy object down by 4 pixel
         if (yCoor < endY) {
             yCoor += 4;
+        } else {
+        	isDestroy--;
+        	if (isDestroy < 0) {
+        		gp.remove(this);
+        		removeEnergyFromList();
+        	}
         }
         setLocation(xCoor, yCoor);
+    }
+    
+    public void removeEnergyFromList() {
+		gp.getActiveEnergys().remove(this);
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
         gp.setEnergyScore(gp.getEnergyScore() + 25);
         gp.remove(this);
-        gp.getActiveEnergys().remove(this);
+        removeEnergyFromList();
     }
 
     @Override
