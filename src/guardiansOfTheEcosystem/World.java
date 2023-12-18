@@ -44,7 +44,6 @@ public class World extends JLayeredPane implements MouseMotionListener {
     private Timer energyProducer;
     private Timer gameplayTimer;
     private Timer enemyProducer;
-    private Timer advancerTimer;
     
     // List of lane
     private ArrayList<ArrayList<Enemy>> enemyLane;
@@ -176,10 +175,7 @@ public class World extends JLayeredPane implements MouseMotionListener {
         // Stop timers
         stopTimers();
 
-        // Reset weapons
-        resetWeapons();
-
-        setEnergyScore(500);
+        setEnergyScore(150);
 
         // Remove all components
         removeAllComponents();
@@ -188,45 +184,18 @@ public class World extends JLayeredPane implements MouseMotionListener {
     }
 
     private void stopTimers() {
-    	if (redrawTimer != null && redrawTimer.isRunning()) {
-            redrawTimer.stop();
-        }
-        if (energyProducer != null && energyProducer.isRunning()) {
-            energyProducer.stop();
-        }
-        if (gameplayTimer != null && gameplayTimer.isRunning()) {
-            gameplayTimer.stop();
-        }
-        if (enemyProducer != null && enemyProducer.isRunning()) {
-            enemyProducer.stop();
-        }
-    }
-
-    private void resetWeapons() {
-        // Stop the energy production timer
-        if (energyProducer != null && energyProducer.isRunning()) {
-            energyProducer.stop();
-        }
-
-        // Clear the activeEnergys list
-        activeEnergys.clear();
-       
+    	gameplayTimer.stop();
+        redrawTimer.stop();
+        energyProducer.stop();
+        enemyProducer.stop();
     }
 
     private void removeAllComponents() {
-        // Set the grid for guardians
-        grids = new Grid[45];
-        for (int i = 0; i < 45; i++) {
-            Grid g = new Grid();
-            g.setLocation(44 + (i % 9) * 100, 109 + (i / 9) * 120);
-            g.setAction(new GuardianActionListener((i % 9), (i / 9)));
-            grids[i] = g;
-            add(g);
-        }
-
-        // Reset guardians in grids
-        for (Grid grid : grids) {
-            grid.resetGuardian();
+        // Remove Guardians (reset grids)
+        for (int i = 0; i < grids.length; i++) {
+        	if (grids[i].assignedGuardian != null) {
+        		grids[i].removeGuardian();
+        	}
         }
 
         // Remove all elements from enemy lane
@@ -240,11 +209,10 @@ public class World extends JLayeredPane implements MouseMotionListener {
         for (int i = 0; i < 5; i++) {
             throwableMaterialLane.add(new ArrayList<>());
         }
-
-        // Remove all elements from activeEnergys
-        activeEnergys = new ArrayList<>();
         
-       
+        for (int i = 0; i < activeEnergys.size(); i++) {
+        	remove(activeEnergys.get(i));
+        }
     }
 
     private void gameplay() {
@@ -308,9 +276,6 @@ public class World extends JLayeredPane implements MouseMotionListener {
 	            }
             }
         }
-
-        // Remove weapons that have reached the bottom
-        activeEnergys.removeIf(energy -> energy.getY() >= getHeight());
     }
 
     private class GuardianActionListener implements ActionListener {

@@ -39,7 +39,6 @@ public class MainMenuPanel extends JPanel {
     }
 
     private void startGame(ActionEvent e) {
-    	// Tampilkan panel game screen
         GamePanel parent = (GamePanel) getParent();
         parent.showPanel("GameScreen");
         GameScreenPanel.worldPanel.startGame();

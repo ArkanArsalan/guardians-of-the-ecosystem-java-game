@@ -43,8 +43,8 @@ public class Enemy {
             
             if (posX < 0) {
                 isMoving = false;
-                GameWindow.gp.showPanel("GameOver");
                 GameScreenPanel.worldPanel.reset();
+                GameWindow.gp.showPanel("GameOver");   
             }
         }
     }
