@@ -22,6 +22,7 @@ public class World extends JLayeredPane implements MouseMotionListener {
     // Enemy image
     private Image sawManImage;
     private Image swordManImage;
+    private Image armouredSwordManImage;
     
     // Weapon image
     private Image bearCatweaponImage;
@@ -65,8 +66,8 @@ public class World extends JLayeredPane implements MouseMotionListener {
      * 	initial dificulty set to 1
      * 
      * */ 
-    public String[][] dificultyEnemyList = {{"SawMan", "SwordMan"}};
-    public int[][][] dificultyValue = {{{0, 99}, {0, 49}}};
+    public String[][] dificultyEnemyList = {{"SawMan"}, {"SawMan", "SwordMan"}, {"SawMan", "SwordMan", "ArmouredSwordMan"}};
+    public int[][][] dificultyValue = {{{0, 99}}, {{0, 99}, {0, 50}}, {{0, 99}, {0, 75}, {0, 50}}};
     private int dificulty = 1;
     
     // Variable to store current guardian
@@ -104,6 +105,7 @@ public class World extends JLayeredPane implements MouseMotionListener {
             
             sawManImage = new ImageIcon(this.getClass().getResource("images/zombie1.png")).getImage();
             swordManImage = new ImageIcon(this.getClass().getResource("images/zombie2.png")).getImage();
+            armouredSwordManImage = new ImageIcon(this.getClass().getResource("images/zombie3.png")).getImage();
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -163,8 +165,8 @@ public class World extends JLayeredPane implements MouseMotionListener {
             
             // Produce enemys
             enemyProducer = new Timer(7000, (ActionEvent e) -> {            
-                String[] enemyList = dificultyEnemyList[dificulty - 1];
-                int[][] dValue = dificultyValue[dificulty - 1]; 	
+                String[] enemyList = dificultyEnemyList[currentPhase - 1];
+                int[][] dValue = dificultyValue[currentPhase - 1]; 	
                 
                 Enemy enemy = null;
                 
@@ -173,7 +175,8 @@ public class World extends JLayeredPane implements MouseMotionListener {
                 for (int i = 0; i < dValue.length * currentPhase; i++) {
                     int randomLane = random.nextInt(5);
                     int randomNumber = random.nextInt(100);
-                	int index = i % 2;
+                    
+                    int index = i % currentPhase;
                     if (randomNumber >= dValue[index][0] && randomNumber <= dValue[index][1]) {
                         enemy = Enemy.getEnemy(enemyList[index], this, randomLane);
                         enemyLane.get(randomLane).add(enemy);
@@ -291,6 +294,8 @@ public class World extends JLayeredPane implements MouseMotionListener {
                     g.drawImage(sawManImage, enemy.getPosX(), 109 + (i * 120), null);
                 } else if (enemy instanceof SwordMan) {
                 	g.drawImage(swordManImage, enemy.getPosX(), 109 + (i * 120), null);
+                } else if (enemy instanceof ArmouredSwordMan) {
+                	g.drawImage(armouredSwordManImage, enemy.getPosX(), 109 + (i * 120), null);
                 }
             }
 

@@ -58,6 +58,9 @@ public class Enemy {
             case "SwordMan":
                 enemy = new SwordMan(parent, lane);
                 break;
+            case "ArmouredSwordMan":
+                enemy = new ArmouredSwordMan(parent, lane);
+                break;
         }
         return enemy;
     }
