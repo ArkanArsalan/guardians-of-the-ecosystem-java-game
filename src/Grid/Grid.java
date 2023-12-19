@@ -1,8 +1,10 @@
-package guardiansOfTheEcosystem;
+package Grid;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
+
+import Guardians.Guardian;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;

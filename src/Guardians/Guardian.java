@@ -1,4 +1,6 @@
-package guardiansOfTheEcosystem;
+package Guardians;
+
+import Panels.World;
 
 public abstract class Guardian {
 	

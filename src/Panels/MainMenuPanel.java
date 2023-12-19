@@ -1,4 +1,4 @@
-package guardiansOfTheEcosystem;
+package Panels;
 
 import java.awt.Color;
 import java.awt.Font;

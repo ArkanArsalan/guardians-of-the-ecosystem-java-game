@@ -1,8 +1,11 @@
-package guardiansOfTheEcosystem;
+package Guardians;
 
 import java.awt.event.ActionEvent;
 
 import javax.swing.Timer;
+
+import Panels.World;
+import ThrowableMaterials.Rock;
 
 public class BearCat extends Guardian {
 	

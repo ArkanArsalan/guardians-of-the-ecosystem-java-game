@@ -1,4 +1,6 @@
-package guardiansOfTheEcosystem;
+package Enemies;
+
+import Panels.World;
 
 public class SwordMan extends Enemy {
 	

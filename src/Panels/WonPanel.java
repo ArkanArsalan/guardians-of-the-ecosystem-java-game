@@ -1,4 +1,4 @@
-package guardiansOfTheEcosystem;
+package Panels;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -10,11 +10,11 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class GameOverPanel extends JPanel {
+public class WonPanel extends JPanel {
 	
-    public GameOverPanel() {
+    public WonPanel() {
         // Set the background color to red
-        setBackground(Color.RED);
+        setBackground(Color.CYAN);
 
         // Use GridBagLayout for flexibility in component placement
         setLayout(new GridBagLayout());
@@ -24,12 +24,12 @@ public class GameOverPanel extends JPanel {
         gbc.insets = new java.awt.Insets(10, 10, 10, 10); // Add some padding
 
         // Create a game over label
-        JLabel gameOverLabel = new JLabel("Game Over");
+        JLabel gameOverLabel = new JLabel("You Won!");
         gameOverLabel.setFont(new Font("Arial", Font.BOLD, 36));
         gameOverLabel.setForeground(Color.WHITE); // Set text color to white
 
         // Create a label for the message
-        JLabel messageLabel = new JLabel("The Enemy has Destroyed the Ecosystem.");
+        JLabel messageLabel = new JLabel("You saved the ecosystem");
         messageLabel.setFont(new Font("Arial", Font.PLAIN, 18));
         messageLabel.setForeground(Color.WHITE); // Set text color to white
 

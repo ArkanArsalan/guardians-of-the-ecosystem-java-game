@@ -1,4 +1,6 @@
-package guardiansOfTheEcosystem;
+package ThrowableMaterials;
+
+import Panels.World;
 
 public class Rock extends ThrowableMaterial {
 	

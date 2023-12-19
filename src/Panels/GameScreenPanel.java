@@ -1,12 +1,15 @@
-package guardiansOfTheEcosystem;
+package Panels;
 
 import javax.swing.*;
+
+import Cards.GuardianCard;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
 public class GameScreenPanel extends JPanel {
 
-    static World worldPanel;
+    public static World worldPanel;
     
     enum GuardianType {
         None,

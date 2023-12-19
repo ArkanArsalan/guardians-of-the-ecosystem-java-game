@@ -1,10 +1,12 @@
-package guardiansOfTheEcosystem;
+package Main;
 
 import javax.swing.*;
 
+import Panels.GamePanel;
+
 public class GameWindow extends JFrame {
 	
-	static GamePanel gp;
+	public static GamePanel gp;
 	
 	public GameWindow() {
 		 setTitle("Guardian of the Ecosystem");

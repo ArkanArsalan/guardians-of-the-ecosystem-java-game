@@ -1,7 +1,9 @@
-package guardiansOfTheEcosystem;
+package Energy;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+
+import Panels.World;
 
 import java.awt.Graphics;
 import java.awt.Image;

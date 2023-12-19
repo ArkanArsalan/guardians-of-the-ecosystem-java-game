@@ -1,6 +1,23 @@
-package guardiansOfTheEcosystem;
+package Panels;
 
 import javax.swing.*;
+
+import Enemies.ArmouredSwordMan;
+import Enemies.Enemy;
+import Enemies.SawMan;
+import Enemies.SwordMan;
+import Energy.Energy;
+import Grid.Grid;
+import Guardians.BearCat;
+import Guardians.Crab;
+import Guardians.Guardian;
+import Guardians.Porcupine;
+import Main.GameWindow;
+import ThrowableMaterials.Rock;
+import ThrowableMaterials.Spike;
+import ThrowableMaterials.ThrowableMaterial;
+import ThrowableMaterials.WaterBall;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -141,7 +158,7 @@ public class World extends JLayeredPane implements MouseMotionListener {
         activeEnergys = new ArrayList<>();
     }
 
-    protected void startGame() {
+    public void startGame() {
             // Redraw every 25 milisecond
             redrawTimer = new Timer(25, (ActionEvent e) -> {
                 repaint();

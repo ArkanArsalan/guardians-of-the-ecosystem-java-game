@@ -1,8 +1,11 @@
-package guardiansOfTheEcosystem;
+package ThrowableMaterials;
 
 import java.awt.Rectangle;
 
 import javax.swing.Timer;
+
+import Enemies.Enemy;
+import Panels.World;
 
 public class ThrowableMaterial {
 	

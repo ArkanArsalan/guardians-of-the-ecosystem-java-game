@@ -1,6 +1,11 @@
-package guardiansOfTheEcosystem;
+package Enemies;
 
 import javax.swing.JLabel;
+
+import Grid.Grid;
+import Main.GameWindow;
+import Panels.GameScreenPanel;
+import Panels.World;
 
 public class Enemy {
 

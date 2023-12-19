@@ -1,4 +1,4 @@
-package guardiansOfTheEcosystem;
+package Panels;
 
 import javax.swing.JPanel;
 import java.awt.CardLayout;

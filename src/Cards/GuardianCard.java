@@ -1,4 +1,4 @@
-package guardiansOfTheEcosystem;
+package Cards;
 
 import javax.swing.*;
 import java.awt.*;
