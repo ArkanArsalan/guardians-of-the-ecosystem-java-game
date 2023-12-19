@@ -24,8 +24,8 @@ public class GameScreenPanel extends JPanel {
         setupGuardianCards();
         
         JLabel energy = new JLabel("energy");
-        energy.setLocation(50, 80);
-        energy.setSize(60, 20);
+        energy.setLocation(75, 73);
+        energy.setSize(60, 35);
         add(energy);
         
         worldPanel = new World(energy);
@@ -35,9 +35,9 @@ public class GameScreenPanel extends JPanel {
 
     private void setupGuardianCards() {
         // Guardian cards
-        GuardianCard bearcatCard = createGuardianCard(GuardianType.BearCat, "images/card_peashooter.png", 110);
-        GuardianCard porcupineCard = createGuardianCard(GuardianType.Porcupine, "images/card_peashooter.png", 175);
-        GuardianCard crabCard = createGuardianCard(GuardianType.Crab, "images/card_peashooter.png", 240);
+        GuardianCard bearcatCard = createGuardianCard(GuardianType.BearCat, "images/bearcatcard.png", 130);
+        GuardianCard porcupineCard = createGuardianCard(GuardianType.Porcupine, "images/porcupinecard.png", 200);
+        GuardianCard crabCard = createGuardianCard(GuardianType.Crab, "images/crabcard.png", 270);
 
         // Add guardian cards to the panel
         add(bearcatCard);

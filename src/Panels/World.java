@@ -112,7 +112,7 @@ public class World extends JLayeredPane implements MouseMotionListener {
         setCurrentPhase(1);
         
         try {
-            bgImage = new ImageIcon(this.getClass().getResource("images/mainBG.png")).getImage();
+            bgImage = new ImageIcon(this.getClass().getResource("images/mainbg.png")).getImage();
             bearCatImage = new ImageIcon(this.getClass().getResource("images/bearcat.png")).getImage();
             porcupineImage = new ImageIcon(this.getClass().getResource("images/porcupine.png")).getImage();
             crabImage = new ImageIcon(this.getClass().getResource("images/crab.png")).getImage();
@@ -120,9 +120,9 @@ public class World extends JLayeredPane implements MouseMotionListener {
             crabweaponImage = new ImageIcon(this.getClass().getResource("images/crabweapon.png")).getImage();
             porcupineweaponImage = new ImageIcon(this.getClass().getResource("images/porcupineweapon.png")).getImage();
             
-            sawManImage = new ImageIcon(this.getClass().getResource("images/zombie1.png")).getImage();
-            swordManImage = new ImageIcon(this.getClass().getResource("images/zombie2.png")).getImage();
-            armouredSwordManImage = new ImageIcon(this.getClass().getResource("images/zombie3.png")).getImage();
+            sawManImage = new ImageIcon(this.getClass().getResource("images/Sawman.gif")).getImage();
+            swordManImage = new ImageIcon(this.getClass().getResource("images/Swordman.png")).getImage();
+            armouredSwordManImage = new ImageIcon(this.getClass().getResource("images/armouredswordman.png")).getImage();
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -293,13 +293,13 @@ public class World extends JLayeredPane implements MouseMotionListener {
             if (c.assignedGuardian != null) {
                 Guardian guardian = c.assignedGuardian;
                 if (guardian instanceof BearCat) {
-                    g.drawImage(bearCatImage, 60 + (i % 9) * 100, 129 + (i / 9) * 120, null);
+                    g.drawImage(bearCatImage, 50 + (i % 9) * 100, 129 + (i / 9) * 120, null);
                 }
                 if (guardian instanceof Porcupine) {
-                    g.drawImage(porcupineImage, 60 + (i % 9) * 100, 129 + (i / 9) * 120, null);
+                    g.drawImage(porcupineImage, 50 + (i % 9) * 100, 129 + (i / 9) * 120, null);
                 }
                 if (guardian instanceof Crab) {
-                    g.drawImage(crabImage, 60 + (i % 9) * 100, 129 + (i / 9) * 120, null);
+                    g.drawImage(crabImage, 50 + (i % 9) * 100, 129 + (i / 9) * 120, null);
                 }
             }
         }
