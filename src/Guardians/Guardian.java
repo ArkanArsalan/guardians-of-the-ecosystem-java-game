@@ -19,8 +19,6 @@ public abstract class Guardian {
         this.energyPrice = energyPrice;
     }
     
-   
-    
     public abstract void stop();
     
     // Setter and getter for health

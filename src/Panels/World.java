@@ -25,7 +25,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.TimerTask;
 
 public class World extends JLayeredPane implements MouseMotionListener {
 	// Background image
@@ -85,15 +84,12 @@ public class World extends JLayeredPane implements MouseMotionListener {
      * */ 
     public String[][] dificultyEnemyList = {{"SawMan"}, {"SawMan", "SwordMan"}, {"SawMan", "SwordMan", "ArmouredSwordMan"}};
     public int[][][] dificultyValue = {{{0, 99}}, {{0, 99}, {0, 50}}, {{0, 99}, {0, 75}, {0, 50}}};
-    private int dificulty = 1;
     
     // Variable to store current guardian
     private GameScreenPanel.GuardianType activeGuardian = GameScreenPanel.GuardianType.None;
     
     private Grid[] grids;
-    
-    private boolean phaseChanged = false;
-    
+        
     private int currentPhase;
 
     public World(JLabel energyScoreBoard) {
@@ -206,7 +202,6 @@ public class World extends JLayeredPane implements MouseMotionListener {
             
     }
         
-
     public void reset() {
         // Stop timers
         stopTimers();
@@ -270,13 +265,13 @@ public class World extends JLayeredPane implements MouseMotionListener {
             activeEnergys.get(i).energyFall();
         }
         
-        if (playerScore == 200) {
+        if (playerScore == 500) {
             GameScreenPanel.worldPanel.reset();
             GameWindow.gp.showPanel("Won");   
-        } else if (playerScore == 50 && currentPhase == 1) {
+        } else if (playerScore == 100 && currentPhase == 1) {
             currentPhase = 2;
             showPhaseChangeText("Phase 2");
-        } else if (playerScore == 100 && currentPhase == 2) {
+        } else if (playerScore == 300 && currentPhase == 2) {
             currentPhase = 3;
             showPhaseChangeText("Phase 3");
         }
@@ -365,20 +360,20 @@ public class World extends JLayeredPane implements MouseMotionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (activeGuardian == GameScreenPanel.GuardianType.BearCat) {
-        	    if (getEnergyScore() >= 100) {
-        	    	Guardian bearcat = new BearCat(World.this, x, y, 100, 100);
+        	    if (getEnergyScore() >= BearCat.ENERGY_PRICE) {
+        	    	Guardian bearcat = new BearCat(World.this, x, y, 100);
         	        grids[x + y * 9].setGuardian(bearcat);
         	        setEnergyScore(getEnergyScore() - bearcat.getEnergyPrice());
         	    }
         	} else if (activeGuardian == GameScreenPanel.GuardianType.Porcupine) {
-        	    if (getEnergyScore() >= 200) {
-        	    	Guardian porcupine = new Porcupine(World.this, x, y, 100, 200);
+        	    if (getEnergyScore() >= Porcupine.ENERGY_PRICE) {
+        	    	Guardian porcupine = new Porcupine(World.this, x, y, 100);
         	        grids[x + y * 9].setGuardian(porcupine);
         	        setEnergyScore(getEnergyScore() - porcupine.getEnergyPrice());
         	    }
         	} else if (activeGuardian == GameScreenPanel.GuardianType.Crab) {
-        	    if (getEnergyScore() >= 175) {
-            	    Guardian crab = new Crab(World.this, x, y, 100, 175);
+        	    if (getEnergyScore() >= Crab.ENERGY_PRICE) {
+            	    Guardian crab = new Crab(World.this, x, y, 100);
         	        grids[x + y * 9].setGuardian(crab);
         	        setEnergyScore(getEnergyScore() - crab.getEnergyPrice());
         	    }

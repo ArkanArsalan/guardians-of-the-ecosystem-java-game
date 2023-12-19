@@ -4,7 +4,6 @@ import javax.swing.*;
 
 import Cards.GuardianCard;
 
-import java.awt.*;
 import java.awt.event.ActionEvent;
 
 public class GameScreenPanel extends JPanel {

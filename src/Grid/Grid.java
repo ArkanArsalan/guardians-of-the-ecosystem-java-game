@@ -17,7 +17,7 @@ public class Grid extends JPanel implements MouseListener {
     private ActionListener al;
 
     public Grid() {
-        setBorder((Border) new LineBorder(Color.RED));
+        // setBorder((Border) new LineBorder(Color.RED));
         setOpaque(false);
         addMouseListener(this);
         setSize(100, 120);

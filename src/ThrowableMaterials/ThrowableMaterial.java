@@ -72,5 +72,4 @@ public class ThrowableMaterial {
         this.myLane = myLane;
     }
 	
-	
 }
